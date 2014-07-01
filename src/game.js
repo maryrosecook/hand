@@ -16,6 +16,13 @@
         terrainer.stepFires(this.c);
         return true;
       }, this);
+    },
+
+    resolveCollision: function(e1, e2) {
+      if (e1 instanceof Fire && e2 instanceof Fire
+          && !this.c.entities.isDestroyed(e1) && !this.c.entities.isDestroyed(e2)) {
+        this.c.entities.destroy(e1);
+      }
     }
   };
 
@@ -88,7 +95,7 @@
 
     collision: function(other) {
       if (other instanceof Fire) {
-        this.game.c.entities.destroy(this);
+        this.game.resolveCollision(this, other);
       }
     }
   };
