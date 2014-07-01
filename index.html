@@ -1,0 +1,24 @@
+<body>
+  <script src="src/lib/head.load.min.js"></script>
+  <script src="src/lib/directory-list.js"></script>
+  <script type="text/javascript">
+    var list = new DirectoryList()
+    .list("src/lib/", false)
+    .removeAll(["src/lib/directory-list.js",
+                "src/lib/head.load.min.js"])
+    .get()
+    .concat(new DirectoryList()
+            .list("src/", false)
+            .select(".js$")
+            .removeAll(["src/game.js"])
+            .get())
+    .concat("src/game.js",
+             function() {
+               new Game();
+             });
+
+    head.js.apply(null, list);
+  </script>
+
+  <canvas id="screen"></canvas>
+</body>
