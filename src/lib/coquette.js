@@ -930,6 +930,16 @@
           break;
         }
       }
+    },
+
+    isDestroyed: function(entity) {
+      for(var i = 0; i < this._entities.length; i++) {
+        if(this._entities[i] === entity) {
+          return true;
+        }
+      }
+
+      return false;
     }
   };
 
