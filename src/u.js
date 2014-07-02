@@ -40,6 +40,10 @@
       }
 
       return pairs;
+    },
+
+    vAdd: function(v1, v2) {
+      return this.p(v1.x + v2.x, v1.y + v2.y);
     }
   };
 
