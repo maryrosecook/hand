@@ -3,7 +3,7 @@
     var self = this;
     this.c = new Coquette(this, "screen", 500, 500, "blue");
     this.c.game = this;
-    this.mary = this.c.entities.create(Mary, { center: u.p(100, 150) });
+    this.mary = this.c.entities.create(Mary, { center: u.p(100, 140) });
     world.setup(this.c);
   };
 
