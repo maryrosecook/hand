@@ -3,11 +3,8 @@
     var self = this;
     this.c = new Coquette(this, "screen", 500, 500, "blue");
     this.c.game = this;
-    this.mary = this.c.entities.create(Mary, {});
-
-    this.c.entities.create(Fire, { center: u.p(80, 80) });
-    terrainer.createIsland(this.c, u.p(80, 80));
-    terrainer.createForest(this.c, u.p(80, 80));
+    this.mary = this.c.entities.create(Mary, { center: u.p(100, 150) });
+    world.setup(this.c);
   };
 
   Game.GRID_SIZE = 10;
@@ -22,9 +19,7 @@
 
   Game.prototype = {
     update: function() {
-      if (Math.random() > 0.1) {
-        terrainer.stepFires(this.c);
-      }
+      world.update();
     },
 
     collision: function(e1, e2) {
