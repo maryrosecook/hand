@@ -12,6 +12,14 @@
 
   Game.GRID_SIZE = 10;
 
+  var either = function(e1, e2, type) {
+    if (e1 instanceof type) {
+      return e1;
+    } else if (e2 instanceof type) {
+      return e2;
+    }
+  };
+
   Game.prototype = {
     update: function() {
       if (Math.random() > 0.1) {
@@ -19,10 +27,11 @@
       }
     },
 
-    resolveCollision: function(e1, e2) {
-      if (e1 instanceof Fire && e2 instanceof Fire
-          && !this.c.entities.isDestroyed(e1) && !this.c.entities.isDestroyed(e2)) {
-        this.c.entities.destroy(e1);
+    collision: function(e1, e2) {
+      if (either(e1, e2, Mary) && either(e1, e2, Fire)) {
+        this.c.entities.destroy(either(e1, e2, Mary));
+      } else if (either(e1, e2, Tree) && either(e1, e2, Fire)) {
+        this.c.entities.destroy(either(e1, e2, Tree));
       }
     },
 

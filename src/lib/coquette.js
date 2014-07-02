@@ -51,35 +51,18 @@
       var fires = this.c.entities.all(Fire);
       var lands = this.c.entities.all(Land);
       var trees = this.c.entities.all(Tree);
-      var players = this.c.entities.all(Mary);
+      var marys = this.c.entities.all(Mary);
 
       this._currentCollisionPairs = u.pairs(fires, trees)
-        .concat(u.pairs(fires, players));
+        .concat(u.pairs(fires, marys));
 
       // test collisions
       while (this._currentCollisionPairs.length > 0) {
         var pair = this._currentCollisionPairs.shift();
         if (this.isColliding(pair[0], pair[1])) {
-          this.collision(pair[0], pair[1]);
-        } else {
-          this.removeOldCollision(this.getCollideRecordIds(pair[0], pair[1])[0]);
+          this.c.game.collision(pair[0], pair[1]);
         }
       }
-    },
-
-    collision: function(entity1, entity2) {
-      var collisionType;
-      if (!isUncollisionOn(this.c.entities.all())) {
-        collisionType = this.INITIAL;
-      } else if (this.getCollideRecordIds(entity1, entity2).length === 0) {
-        this._collideRecords.push([entity1, entity2]);
-        collisionType = this.INITIAL;
-      } else {
-        collisionType = this.SUSTAINED;
-      }
-
-      notifyEntityOfCollision(entity1, entity2, collisionType);
-      notifyEntityOfCollision(entity2, entity1, collisionType);
     },
 
     createEntity: function(entity) {
