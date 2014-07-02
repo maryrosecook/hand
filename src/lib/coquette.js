@@ -48,15 +48,13 @@
     _currentCollisionPairs: [],
 
     update: function() {
-      this._currentCollisionPairs = [];
+      var fires = this.c.entities.all(Fire);
+      var lands = this.c.entities.all(Land);
+      var trees = this.c.entities.all(Tree);
+      var players = this.c.entities.all(Mary);
 
-      // get all entity pairs to test for collision
-      var ent = this.c.entities.all();
-      for (var i = 0, len = ent.length; i < len; i++) {
-        for (var j = i + 1; j < len; j++) {
-          this._currentCollisionPairs.push([ent[i], ent[j]]);
-        }
-      }
+      this._currentCollisionPairs = u.pairs(fires, trees)
+        .concat(u.pairs(fires, players));
 
       // test collisions
       while (this._currentCollisionPairs.length > 0) {
