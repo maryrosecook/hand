@@ -33,7 +33,7 @@
 
     movementFrequency: function() {
       if (!this.game.isClear(this.center, [Land])) {
-        return 100;
+        return 50;
       } else {
         return 400;
       }
