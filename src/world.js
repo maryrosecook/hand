@@ -7,6 +7,10 @@
 
     seed: function() {
       this.createIsland(this.c, u.p(80, 80));
+      this.createIsland(this.c, u.p(_.random(25, 50) * 10, _.random(25, 50) * 10));
+      this.createIsland(this.c, u.p(_.random(-50, 25) * 10, _.random(-50, 25) * 10));
+      this.createIsland(this.c, u.p(_.random(25, -50) * 10, _.random(25, -50) * 10));
+
     },
 
     update: function() {
@@ -48,7 +52,7 @@
 
     createLand: function(c, center) {
       var lands = [c.entities.create(Land, { center: center })];
-      for (var i = 0; i < 700; i++) {
+      for (var i = 0; i < 300; i++) {
         lands.push(this.growLand(c, lands));
       }
     },
