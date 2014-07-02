@@ -43,33 +43,48 @@
       return this.game.isClear(center, [Tree]);
     },
 
-    getMove: function() {
-      if (this.game.c.inputter.isDown(this.game.c.inputter.LEFT_ARROW)) {
-        return this.MOVES.LEFT;
-      } else if (this.game.c.inputter.isDown(this.game.c.inputter.RIGHT_ARROW)) {
-        return this.MOVES.RIGHT;
+    keyMapValue: function(direction, key) {
+      if (this.game.c.inputter.isPressed(key)) {
+        return new Date().getTime();
+      } else if (this.game.c.inputter.isDown(key)) {
+        return this.keyMap[direction];
       }
-
-      if (this.game.c.inputter.isDown(this.game.c.inputter.UP_ARROW)) {
-        return this.MOVES.UP;
-      } else if (this.game.c.inputter.isDown(this.game.c.inputter.DOWN_ARROW)) {
-        return this.MOVES.DOWN;
-      };
     },
 
-    dir: undefined,
+    keyMap: {},
+    updateKeyMap: function() {
+      this.keyMap["LEFT"] = this.keyMapValue("LEFT", this.game.c.inputter.LEFT_ARROW);
+      this.keyMap["RIGHT"] = this.keyMapValue("RIGHT", this.game.c.inputter.RIGHT_ARROW);
+      this.keyMap["UP"] = this.keyMapValue("UP", this.game.c.inputter.UP_ARROW);
+      this.keyMap["DOWN"] = this.keyMapValue("DOWN", this.game.c.inputter.DOWN_ARROW);
+    },
+
     move: function() {
-      this.dir = this.getMove();
+      this.updateKeyMap();
       u.every(this.movementFrequency(), function() {
-        if (this.dir !== undefined && this.isMoveClear(u.vAdd(this.center, this.dir))) {
-          this.center = u.vAdd(this.center, this.dir);
+        var dir = this.getDir();
+        if (dir !== undefined) {
+          this.center = u.vAdd(this.center, dir);
           return true;
         }
       }, this);
+    },
+
+    getDir: function() {
+      var latest;
+      for (var i in this.keyMap) {
+        if (this.keyMap[i] !== undefined &&
+            (latest === undefined || this.keyMap[latest] < this.keyMap[i])) {
+          latest = i;
+        }
+      }
+
+      return latest === undefined ? undefined : this.MOVES[latest];
     },
 
     draw: function(screen) {
       drawer.rect(screen, this.center, this.size, "#000");
     }
   };
+
 })(this);
