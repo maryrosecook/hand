@@ -59,7 +59,7 @@
       // test collisions
       while (this._currentCollisionPairs.length > 0) {
         var pair = this._currentCollisionPairs.shift();
-        if (this.isColliding(pair[0], pair[1])) {
+        if (Maths.rectanglesIntersecting(pair[0], pair[1])) {
           this.c.game.collision(pair[0], pair[1]);
         }
       }
@@ -123,8 +123,7 @@
     },
 
     isColliding: function(obj1, obj2) {
-      return isSetupForCollisions(obj1) && isSetupForCollisions(obj2) &&
-        this.isIntersecting(obj1, obj2);
+      return this.isIntersecting(obj1, obj2);
     },
 
     isIntersecting: function(obj1, obj2) {
