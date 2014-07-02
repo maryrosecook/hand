@@ -3,7 +3,7 @@
     this.game = game;
     this.zindex = -2;
     this.center = settings.center;
-    this.size = u.p(10, 10);
+    this.size = Game.GRID_SIZE;
   };
 
   Land.prototype = {

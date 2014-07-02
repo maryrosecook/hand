@@ -64,7 +64,7 @@
     adjNeighbors: function(entity) {
       var x = entity.center.x;
       var y = entity.center.y;
-      var step = Game.GRID_SIZE;
+      var step = Game.GRID_SIZE.x;
       return [
         { x: x, y: y - step },
         { x: x - step, y: y },

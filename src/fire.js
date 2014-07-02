@@ -3,7 +3,7 @@
     this.game = game;
     this.zindex = 0;
     this.center = settings.center;
-    this.size = u.p(10, 10);
+    this.size = Game.GRID_SIZE;
     this.color = "red";
 
     var self = this;

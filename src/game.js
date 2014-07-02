@@ -7,7 +7,7 @@
     world.setup(this.c);
   };
 
-  Game.GRID_SIZE = 10;
+  Game.GRID_SIZE = { x: 10, y: 10 };
 
   var either = function(e1, e2, type) {
     if (e1 instanceof type) {
@@ -74,18 +74,18 @@
       u.every(100, function() {
         var moved;
         if (this.game.c.inputter.isDown(this.game.c.inputter.LEFT_ARROW)) {
-          this.center.x -= Game.GRID_SIZE;
+          this.center.x -= Game.GRID_SIZE.x;
           moved = true;
         } else if (this.game.c.inputter.isDown(this.game.c.inputter.RIGHT_ARROW)) {
-          this.center.x += Game.GRID_SIZE;
+          this.center.x += Game.GRID_SIZE.x;
           moved = true;
         }
 
         if (this.game.c.inputter.isDown(this.game.c.inputter.UP_ARROW)) {
-          this.center.y -= Game.GRID_SIZE;
+          this.center.y -= Game.GRID_SIZE.y;
           moved = true;
         } else if (this.game.c.inputter.isDown(this.game.c.inputter.DOWN_ARROW)) {
-          this.center.y += Game.GRID_SIZE;
+          this.center.y += Game.GRID_SIZE.y;
           moved = true;
         };
 

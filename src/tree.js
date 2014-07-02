@@ -3,14 +3,12 @@
     this.game = game;
     this.zindex = -1;
     this.center = settings.center;
-    this.size = u.p(10, 10);
+    this.size = Game.GRID_SIZE;
   };
 
   Tree.prototype = {
     draw: function(screen) {
-      if (this.center !== undefined) {
-        drawer.rect(screen, this.center, this.size, "green");
-      }
+      drawer.rect(screen, this.center, this.size, "green");
     }
   };
 })(this);
