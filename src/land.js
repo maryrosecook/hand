@@ -4,11 +4,9 @@
     this.zindex = -2;
     this.center = settings.center;
     this.size = Game.GRID_SIZE;
+    this.color = "white";
   };
 
   Land.prototype = {
-    draw: function(screen) {
-      drawer.rect(screen, this.center, this.size, "white");
-    }
   };
 })(this);

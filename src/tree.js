@@ -4,11 +4,10 @@
     this.zindex = -1;
     this.center = settings.center;
     this.size = Game.GRID_SIZE;
+    this.color = "green";
   };
 
   Tree.prototype = {
-    draw: function(screen) {
-      drawer.rect(screen, this.center, this.size, "green");
-    }
+
   };
 })(this);

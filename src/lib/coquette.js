@@ -814,23 +814,13 @@
                    this._viewSize.y);
 
       // draw game and entities
-      var drawables = [this.game]
-        .concat(this.c.entities.all().concat().sort(zindexSort));
+      var drawables = this.c.entities.all().concat().sort(zindexSort);
       for (var i = 0, len = drawables.length; i < len; i++) {
-        if (drawables[i].draw !== undefined) {
-          var drawable = drawables[i];
-
-          ctx.save();
-
-          if (drawable.center !== undefined && drawable.angle !== undefined) {
-            ctx.translate(drawable.center.x, drawable.center.y);
-            ctx.rotate(drawable.angle * Maths.RADIANS_TO_DEGREES);
-            ctx.translate(-drawable.center.x, -drawable.center.y);
-          }
-
-          drawables[i].draw(ctx);
-
-          ctx.restore();
+        var e = drawables[i];
+        if (e.draw === undefined) {
+          drawer.rect(ctx, e.center, e.size, e.color);
+        } else {
+          e.draw(ctx);
         }
       }
 

@@ -13,8 +13,6 @@
   };
 
   Fire.prototype = {
-    draw: function(screen) {
-      drawer.rect(screen, this.center, this.size, this.color);
-    },
+
   };
 })(this);
