@@ -5,9 +5,9 @@
     this.c.game = this;
     this.mary = this.c.entities.create(Mary, {});
 
-    this.c.entities.create(Fire, { center: u.p(100, 20) });
-    // terrainer.createForest(this.c, u.p(300, 300));
+    this.c.entities.create(Fire, { center: u.p(80, 80) });
     terrainer.createIsland(this.c, u.p(80, 80));
+    terrainer.createForest(this.c, u.p(80, 80));
   };
 
   Game.GRID_SIZE = 10;
