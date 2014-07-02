@@ -31,7 +31,16 @@
       return new Machine(states, init);
     },
 
+    pairs: function(arr1, arr2) {
+      var pairs = [];
+      for (var i = 0; i < arr1.length; i++) {
+        for (var j = 0; j < arr2.length; j++) {
+          pairs.push([arr1[i], arr2[j]]);
+        }
+      }
 
+      return pairs;
+    }
   };
 
   var Machine = function(states, init) {
