@@ -20,7 +20,8 @@
     },
 
     createIsland: function(c, center) {
-      world.createLand(c, u.p(center.x, center.y));
+      var lands = world.createLand(c, u.p(center.x, center.y));
+      c.entities.create(Food, { center: _.sample(lands).center });
       var forestCenter = u.p(center.x, center.y - 30);
       world.createForest(c, forestCenter);
       c.entities.create(Fire, { center: u.cp(forestCenter) });
@@ -55,6 +56,8 @@
       for (var i = 0; i < 300; i++) {
         lands.push(this.growLand(c, lands));
       }
+
+      return lands;
     },
 
     growLand: function(c, lands) {
@@ -92,7 +95,7 @@
 
   var forestNeighbor = function(game, entity) {
     return _.find(_.shuffle(world.adjNeighbors(entity)), function(center) {
-      return game.isClear(center, [Tree]) && !game.isClear(center, [Land]);
+      return game.isClear(center, [Tree, Food]) && !game.isClear(center, [Land]);
     });
   };
 })(this);
