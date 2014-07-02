@@ -44,7 +44,7 @@
   var Mary = exports.Mary = function(game, settings) {
     this.game = game;
     this.zindex = 1;
-    this.center = u.p(100, 100);
+    this.center = settings.center;
     this.size = u.p(10, 10);
     this.pack = [];
   };
