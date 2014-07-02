@@ -63,7 +63,7 @@
       this.updateKeyMap();
       u.every(this.movementFrequency(), function() {
         var dir = this.getDir();
-        if (dir !== undefined) {
+        if (dir !== undefined && this.isMoveClear(u.vAdd(this.center, dir))) {
           this.center = u.vAdd(this.center, dir);
           return true;
         }
