@@ -49,12 +49,14 @@
 
     update: function() {
       var fires = this.c.entities.all(Fire);
-      var lands = this.c.entities.all(Land);
       var trees = this.c.entities.all(Tree);
       var marys = this.c.entities.all(Mary);
+      var foods = this.c.entities.all(Food);
 
       this._currentCollisionPairs = u.pairs(fires, trees)
-        .concat(u.pairs(fires, marys));
+        .concat(u.pairs(fires, marys))
+        .concat(u.pairs(fires, foods))
+        .concat(u.pairs(foods, marys));
 
       // test collisions
       while (this._currentCollisionPairs.length > 0) {

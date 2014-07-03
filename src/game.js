@@ -20,7 +20,7 @@
         this.c.entities.destroy(c.g(Mary));
       } else if (c.g(Fire) && c.g(Tree)) {
         this.c.entities.destroy(c.g(Tree));
-      } else if (c.g(Tree) && c.g(Food)) {
+      } else if (c.g(Mary) && c.g(Food)) {
         c.g(Mary).pickUp(c.g(Food));
       }
     },

@@ -5,8 +5,8 @@
     this.center = settings.center;
     this.size = Game.GRID_SIZE;
     this.pack = [];
-    this.food = 10;
-    this.water = 10;
+    this.MAX_FOOD = Game.GRID_SIZE.y - 2;
+    this.food = this.MAX_FOOD;
 
     this.MOVES = {
       LEFT: u.p(-Game.GRID_SIZE.x, 0),
@@ -20,7 +20,12 @@
     update: function(delta) {
       this.move();
       this.game.c.renderer.setViewCenter(this.center);
+      this.reduceFood();
     },
+
+    reduceFood: _.throttle(function() {
+      this.food -= 1;
+    }, 10000, {leading: false}),
 
     collision: function(other) {
       if (other instanceof Fire) {
@@ -28,9 +33,11 @@
       }
     },
 
-    pickUp: function(obj) {
-      this.pack.push(obj);
-      obj.center = undefined;
+    pickUp: function(entity) {
+      if (entity instanceof Food) {
+        this.food = this.MAX_FOOD;
+        this.game.c.entities.destroy(entity);
+      }
     },
 
     movementFrequency: function() {
@@ -86,6 +93,13 @@
 
     draw: function(screen) {
       drawer.rect(screen, this.center, this.size, "#000");
+      if (this.food > 0) {
+        drawer.rect(screen,
+                    u.p(this.center.x,
+                        this.center.y + (this.MAX_FOOD - this.food) / 2),
+                    u.p(this.size.x - 2, this.food),
+                    "yellow", "oetnhu");
+      }
     }
   };
 
