@@ -1,32 +1,46 @@
 ;(function(exports) {
   var Collision = exports.Collision = function(e1, e2) {
-    this.TYPES = [Fire, Tree, Land, Food, Mary];
-    this.buckets = {};
+    this.buckets = [];
     this.bucket(e1);
     this.bucket(e2);
   }
 
   Collision.prototype = {
     g: function(typeFn) {
-      var type = typeFn.name;
-      if (_.isArray(this.buckets[type]) && this.buckets[type].length === 1) {
-        return this.buckets[type][0];
-      } else {
-        return this.buckets[type];
+      var bucket = getBucket(this.buckets, typeFn.prototype);
+      if (bucket !== undefined){
+        if (bucket.es.length === 1) {
+          return bucket.es[0];
+        } else {
+          return bucket.es;
+        }
       }
     },
 
     bucket: function(e) {
-      var type = getType(this.TYPES, e).name;
-      this.buckets[type] = (this.buckets[type] || []).concat(e);
+      var protos = getPrototypes(e);
+      for (var i = 0; i < protos.length; i++) {
+        var bucket = getBucket(this.buckets, protos[i]);
+        if (bucket === undefined) {
+          bucket = { proto: protos[i], es: [] };
+          this.buckets.push(bucket);
+        }
+
+        bucket.es.push(e);
+      }
     }
   };
 
-  var getType = function(TYPES, e) {
-    for (var i = 0; i < TYPES.length; i++) {
-      if (e instanceof TYPES[i]) {
-        return TYPES[i];
-      }
+  var getBucket = function(buckets, proto) {
+    return _.find(buckets, function(b) { return b.proto === proto; });
+  };
+
+  var getPrototypes = function(e) {
+    var proto = e.__proto__;
+    if (proto === Object.prototype) {
+      return [];
+    } else {
+      return [proto].concat(getPrototypes(proto))
     }
   };
 })(this);
