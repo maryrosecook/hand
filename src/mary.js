@@ -93,13 +93,18 @@
 
     draw: function(screen) {
       drawer.rect(screen, this.center, this.size, "#000");
-      if (this.food > 0) {
-        drawer.rect(screen,
-                    u.p(this.center.x,
-                        this.center.y + (this.MAX_FOOD - this.food) / 2),
-                    u.p(this.size.x - 2, this.food),
-                    "yellow", "oetnhu");
-      }
+      this.drawFoodMeter(screen);
+    },
+
+    drawFoodMeter: function(screen) {
+      var viewCenter = this.game.c.renderer.getViewCenter();
+      var viewSize = this.game.c.renderer.getViewSize();
+      var pxPerFood = viewSize.y / this.MAX_FOOD;
+      drawer.rect(screen,
+                  u.p(viewCenter.x + viewSize.x / 2 - Game.GRID_SIZE.x / 2,
+                      this.center.y + ((this.MAX_FOOD - this.food) / 2 * pxPerFood)),
+                  u.p(Game.GRID_SIZE.x, this.food * pxPerFood),
+                  "yellow");
     }
   };
 
