@@ -1,7 +1,7 @@
 ;(function(exports) {
   var Game = exports.Game = function() {
     var self = this;
-    this.c = new Coquette(this, "screen", 500, 500, "blue");
+    this.c = new Coquette(this, "screen", 1000, 500, "blue");
     this.c.game = this;
     this.mary = this.c.entities.create(Mary, { center: u.p(100, 140) });
     world.setup(this.c);
