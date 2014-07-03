@@ -3,11 +3,11 @@
     var self = this;
     this.c = new Coquette(this, "screen", 1000, 500, "blue");
     this.c.game = this;
-    this.mary = this.c.entities.create(Mary, { center: u.p(100, 140) });
+    this.mary = this.c.entities.create(Mary, { center: u.p(96, 144) });
     world.setup(this.c);
   };
 
-  Game.GRID_SIZE = { x: 10, y: 10 };
+  Game.GRID_SIZE = { x: 16, y: 16 };
 
   Game.prototype = {
     update: function() {

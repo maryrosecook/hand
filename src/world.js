@@ -6,11 +6,13 @@
     },
 
     seed: function() {
-      this.createIsland(this.c, u.p(80, 80));
-      this.createIsland(this.c, u.p(_.random(25, 50) * 10, _.random(25, 50) * 10));
-      this.createIsland(this.c, u.p(_.random(-50, 25) * 10, _.random(-50, 25) * 10));
-      this.createIsland(this.c, u.p(_.random(25, -50) * 10, _.random(25, -50) * 10));
-
+      this.createIsland(this.c, u.p(96, 96));
+      this.createIsland(this.c, u.p(_.random(25, 50) * Game.GRID_SIZE.x,
+                                    _.random(25, 50) * Game.GRID_SIZE.x));
+      this.createIsland(this.c, u.p(_.random(-50, 25) * Game.GRID_SIZE.x,
+                                    _.random(-50, 25) * Game.GRID_SIZE.x));
+      this.createIsland(this.c, u.p(_.random(25, -50) * Game.GRID_SIZE.x,
+                                    _.random(25, -50) * Game.GRID_SIZE.x));
     },
 
     update: function() {
@@ -22,9 +24,9 @@
     createIsland: function(c, center) {
       var lands = world.createLand(c, u.p(center.x, center.y));
       c.entities.create(Food, { center: _.sample(lands).center });
-      var forestCenter = u.p(center.x, center.y - 30);
+      var forestCenter = u.p(center.x, center.y - Game.GRID_SIZE.x * 4);
       world.createForest(c, forestCenter);
-      c.entities.create(Fire, { center: u.cp(forestCenter) });
+      // c.entities.create(Fire, { center: u.cp(forestCenter) });
     },
 
     stepFires: function(c) {
@@ -46,9 +48,7 @@
     growForest: function(c, trees) {
       var cent = forestNeighbor(c.game,
                                 _.find(_.shuffle(trees), _.partial(forestNeighbor, c.game)));
-      if (cent !== undefined) {
-        return c.entities.create(Tree, { center: cent });
-      }
+      return c.entities.create(Tree, { center: cent });
     },
 
     createLand: function(c, center) {
@@ -63,9 +63,7 @@
     growLand: function(c, lands) {
       var cent = landNeighbor(c.game,
                               _.find(_.shuffle(lands), _.partial(landNeighbor, c.game)));
-      if (cent !== undefined) {
-        return c.entities.create(Land, { center: cent });
-      }
+      return c.entities.create(Land, { center: cent });
     },
 
     adjNeighbors: function(entity) {
