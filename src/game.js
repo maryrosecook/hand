@@ -9,24 +9,19 @@
 
   Game.GRID_SIZE = { x: 10, y: 10 };
 
-  var either = function(e1, e2, type) {
-    if (e1 instanceof type) {
-      return e1;
-    } else if (e2 instanceof type) {
-      return e2;
-    }
-  };
-
   Game.prototype = {
     update: function() {
       world.update();
     },
 
     collision: function(e1, e2) {
-      if (either(e1, e2, Mary) && either(e1, e2, Fire)) {
-        this.c.entities.destroy(either(e1, e2, Mary));
-      } else if (either(e1, e2, Tree) && either(e1, e2, Fire)) {
-        this.c.entities.destroy(either(e1, e2, Tree));
+      var c = new Collision(e1, e2);
+      if (c.g(Mary) && c.g(Fire)) {
+        this.c.entities.destroy(c.g(Mary));
+      } else if (c.g(Fire) && c.g(Tree)) {
+        this.c.entities.destroy(c.g(Tree));
+      } else if (c.g(Tree) && c.g(Food)) {
+        c.g(Mary).pickUp(c.g(Food));
       }
     },
 

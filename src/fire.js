@@ -1,5 +1,5 @@
 ;(function(exports) {
-  var Fire = exports.Fire = function(game, settings) {
+  exports.Fire = function Fire(game, settings) {
     this.game = game;
     this.zindex = 0;
     this.center = settings.center;

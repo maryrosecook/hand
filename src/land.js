@@ -1,5 +1,5 @@
 ;(function(exports) {
-  var Land = exports.Land = function(game, settings) {
+  exports.Land = function Land(game, settings) {
     this.game = game;
     this.zindex = -2;
     this.center = settings.center;

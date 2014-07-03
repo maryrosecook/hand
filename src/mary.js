@@ -1,10 +1,12 @@
 ;(function(exports) {
-  var Mary = exports.Mary = function(game, settings) {
+  exports.Mary = function Mary(game, settings) {
     this.game = game;
     this.zindex = 1;
     this.center = settings.center;
     this.size = Game.GRID_SIZE;
     this.pack = [];
+    this.food = 10;
+    this.water = 10;
 
     this.MOVES = {
       LEFT: u.p(-Game.GRID_SIZE.x, 0),
