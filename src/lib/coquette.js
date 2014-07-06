@@ -446,6 +446,7 @@
     LEFT_MOUSE: "LEFT_MOUSE",
     RIGHT_MOUSE: "RIGHT_MOUSE",
 
+    CONTROL: 3094209384,
     BACKSPACE: 8,
     TAB: 9,
     ENTER: 13,
@@ -535,10 +536,12 @@
     this._buttonPressedState = {};
 
     keyboardReceiver.addEventListener('keydown', function(e) {
+      if (e.ctrlKey === true) self._down(Inputter.prototype.CONTROL);
       self._down(e.keyCode);
     }, false);
 
     keyboardReceiver.addEventListener('keyup', function(e) {
+      if (e.ctrlKey !== true) self._up(Inputter.prototype.CONTROL);
       self._up(e.keyCode);
     }, false);
 
