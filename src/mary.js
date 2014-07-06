@@ -8,12 +8,21 @@
     this.MAX_FOOD = Game.GRID_SIZE.y - 2;
     this.food = this.MAX_FOOD;
 
-    this.MOVES = {
+    this.DIR_TO_VECTOR = {
       LEFT: u.p(-Game.GRID_SIZE.x, 0),
       RIGHT: u.p(Game.GRID_SIZE.x, 0),
       UP: u.p(0, -Game.GRID_SIZE.y),
       DOWN: u.p(0, Game.GRID_SIZE.y )
     };
+
+    this.DIR_TO_KEY = {
+      LEFT: this.game.c.inputter.LEFT_ARROW,
+      RIGHT: this.game.c.inputter.RIGHT_ARROW,
+      UP: this.game.c.inputter.UP_ARROW,
+      DOWN: this.game.c.inputter.DOWN_ARROW
+    };
+
+    this.hand = this.game.c.entities.create(Hand, { center: this.getHandPosition() });
   };
 
   Mary.prototype = {
@@ -21,6 +30,7 @@
       this.move();
       this.game.c.renderer.setViewCenter(this.center);
       this.reduceFood();
+      this.hand.center = this.getHandPosition();
     },
 
     reduceFood: _.throttle(function() {
@@ -52,43 +62,53 @@
       return this.game.isClear(center, [Tree]);
     },
 
-    keyMapValue: function(direction, key) {
-      if (this.game.c.inputter.isPressed(key)) {
+    keyMapValue: function(dir) {
+      if (this.game.c.inputter.isPressed(this.DIR_TO_KEY[dir])) {
         return new Date().getTime();
-      } else if (this.game.c.inputter.isDown(key)) {
-        return this.keyMap[direction];
+      } else {
+        return this.keyMap[dir];
       }
     },
 
     keyMap: {},
     updateKeyMap: function() {
-      this.keyMap["LEFT"] = this.keyMapValue("LEFT", this.game.c.inputter.LEFT_ARROW);
-      this.keyMap["RIGHT"] = this.keyMapValue("RIGHT", this.game.c.inputter.RIGHT_ARROW);
-      this.keyMap["UP"] = this.keyMapValue("UP", this.game.c.inputter.UP_ARROW);
-      this.keyMap["DOWN"] = this.keyMapValue("DOWN", this.game.c.inputter.DOWN_ARROW);
+      this.keyMap["LEFT"] = this.keyMapValue("LEFT");
+      this.keyMap["RIGHT"] = this.keyMapValue("RIGHT");
+      this.keyMap["UP"] = this.keyMapValue("UP");
+      this.keyMap["DOWN"] = this.keyMapValue("DOWN");
     },
 
     move: function() {
       this.updateKeyMap();
       u.every(this.movementFrequency(), function() {
-        var dir = this.getDir();
-        if (dir !== undefined && this.isMoveClear(u.vAdd(this.center, dir))) {
-          this.center = u.vAdd(this.center, dir);
-          return true;
+        var dir = this.getCurrentDir();
+        if (dir !== undefined) {
+          this.faceDirection = dir;
+          var newPosition = u.vAdd(this.center, this.DIR_TO_VECTOR[dir]);
+          if (this.isMoveClear(newPosition)) {
+            this.center = newPosition;
+            return true;
+          }
         }
       }, this);
     },
 
-    getDir: function() {
+    getCurrentDir: function() {
       var latest;
       for (var i in this.keyMap) {
-        if (this.keyMap[i] !== undefined &&
+        if (this.keyMap[i] !== undefined && this.game.c.inputter.isDown(this.DIR_TO_KEY[i]) &&
             (latest === undefined || this.keyMap[latest] < this.keyMap[i])) {
           latest = i;
         }
       }
 
-      return latest === undefined ? undefined : this.MOVES[latest];
+      return latest;
+    },
+
+    faceDirection: "UP",
+
+    getHandPosition: function() {
+      return u.vAdd(this.center, this.DIR_TO_VECTOR[this.faceDirection]);
     },
 
     draw: function(screen) {
