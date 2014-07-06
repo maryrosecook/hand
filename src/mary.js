@@ -70,10 +70,12 @@
       u.every(this.movementFrequency(), function() {
         var dir = this.getCurrentDir();
         if (dir !== undefined) {
-          this.hand.maryMovedTo(this.center, dir);
           var newPosition = u.vAdd(this.center, Game.DIR_TO_VECTOR[dir]);
           if (this.isMoveClear(newPosition, dir)) {
             this.center = newPosition;
+            this.hand.maryMovedTo(this.center, dir);
+            return true;
+          } else if (this.isMoveClear(this.center, dir)) { // try just rotating
             this.hand.maryMovedTo(this.center, dir);
             return true;
           }
