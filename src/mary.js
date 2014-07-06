@@ -59,7 +59,7 @@
     },
 
     isMoveClear: function(center) {
-      return this.game.isClear(center, [Tree]);
+      return this.game.isClear(center, [Tree, Food]);
     },
 
     keyMapValue: function(dir) {
