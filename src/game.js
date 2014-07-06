@@ -31,7 +31,7 @@
     },
 
     destroy: function(entity) {
-      if (this.mary.hand.carrying === entity) {
+      if (this.mary.hand.isCarrying(entity)) {
         this.mary.hand.dropIfCarrying();
       }
 

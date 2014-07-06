@@ -43,9 +43,10 @@
       }
     },
 
-    isMoveClear: function(center) {
-      return this.game.isClear(center, [Tree, Food, Person])
-        || this.game.getPickUpabbleEntityAtSquare(center) === this.hand.carrying;
+    isMoveClear: function(center, dir) {
+      return (this.game.isClear(center, [Tree, Food])
+              || this.hand.isCarrying(this.game.getPickUpabbleEntityAtSquare(center))) &&
+        this.hand.isMoveClear(center, dir);
     },
 
     keyMapValue: function(dir) {
@@ -71,7 +72,7 @@
         if (dir !== undefined) {
           this.hand.maryMovedTo(this.center, dir);
           var newPosition = u.vAdd(this.center, Game.DIR_TO_VECTOR[dir]);
-          if (this.isMoveClear(newPosition)) {
+          if (this.isMoveClear(newPosition, dir)) {
             this.center = newPosition;
             this.hand.maryMovedTo(this.center, dir);
             return true;

@@ -36,15 +36,26 @@
       this.carrying = entity;
     },
 
+    isCarrying: function(testItem) {
+      return this.carrying !== undefined &&
+        (testItem === undefined || this.carrying === testItem);
+    },
+
     dropIfCarrying: function() {
-      if (this.carrying !== undefined) {
+      if (this.isCarrying()) {
         this.carrying = undefined;
       }
     },
 
+    isMoveClear: function(maryCenter, dir) {
+      return !this.isCarrying() ||
+        this.game.isClear(u.vAdd(maryCenter, Game.DIR_TO_VECTOR[dir]),
+                          [Tree, Food]);
+    },
+
     maryMovedTo: function(center, dir) {
       this.center = u.vAdd(center, Game.DIR_TO_VECTOR[dir]);
-      if (this.carrying !== undefined) {
+      if (this.isCarrying()) {
         this.carrying.center = u.cp(this.center);
       }
     }
