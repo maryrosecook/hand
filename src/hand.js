@@ -8,8 +8,6 @@
 
   Hand.prototype = {
     draw: function(screen) {
-      screen.lineWidth = 1;
-
       screen.strokeStyle = "black";
       screen.strokeRect(this.center.x - this.size.x / 2 + 0.5,
                         this.center.y - this.size.y / 2 + 0.5,
