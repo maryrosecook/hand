@@ -59,6 +59,9 @@
         c.entities.create(Food, { center: _.sample(lands).center });
       }
 
+      if (Math.random() > 0) {
+        c.entities.create(Person, { center: _.sample(lands).center });
+      }
 
       var forestCenter = u.p(center.x, center.y - Game.GRID_SIZE.x * 4);
       world.createForest(c, forestCenter);
@@ -132,7 +135,7 @@
 
   var forestNeighbor = function(game, entity) {
     return _.find(_.shuffle(world.adjNeighbors(entity)), function(center) {
-      return game.isClear(center, [Tree, Food]) && !game.isClear(center, [Land]);
+      return game.isClear(center, [Tree, Food, Person]) && !game.isClear(center, [Land]);
     });
   };
 })(this);
