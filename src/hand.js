@@ -7,10 +7,6 @@
   };
 
   Hand.prototype = {
-    update: function(delta) {
-
-    },
-
     draw: function(screen) {
       screen.lineWidth = 1;
 
