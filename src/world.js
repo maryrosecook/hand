@@ -6,13 +6,13 @@
     },
 
     seed: function() {
-      this.createIsland(this.c, u.p(96, 96));
+      this.createHomeIsland(this.c, u.p(96, 96));
       this.createIsland(this.c, u.p(_.random(25, 50) * Game.GRID_SIZE.x,
                                     _.random(25, 50) * Game.GRID_SIZE.x));
-      this.createIsland(this.c, u.p(_.random(-50, 25) * Game.GRID_SIZE.x,
-                                    _.random(-50, 25) * Game.GRID_SIZE.x));
-      this.createIsland(this.c, u.p(_.random(25, -50) * Game.GRID_SIZE.x,
-                                    _.random(25, -50) * Game.GRID_SIZE.x));
+      this.createIsland(this.c, u.p(_.random(-50, 0) * Game.GRID_SIZE.x,
+                                    _.random(-50, 0) * Game.GRID_SIZE.x));
+      // this.createIsland(this.c, u.p(_.random(25, -50) * Game.GRID_SIZE.x,
+      //                               _.random(25, -50) * Game.GRID_SIZE.x));
     },
 
     update: function() {
@@ -43,12 +43,29 @@
       }, this);
     },
 
-    createIsland: function(c, center) {
-      var lands = world.createLand(c, u.p(center.x, center.y));
+    createHomeIsland: function(c, center) {
+      var lands = world.createLand(c, u.p(center.x, center.y), 600);
       c.entities.create(Food, { center: _.sample(lands).center });
+      c.entities.create(Food, { center: _.sample(lands).center });
+
       var forestCenter = u.p(center.x, center.y - Game.GRID_SIZE.x * 4);
       world.createForest(c, forestCenter);
-      // c.entities.create(Fire, { center: u.cp(forestCenter) });
+    },
+
+    createIsland: function(c, center) {
+      var lands = world.createLand(c, u.p(center.x, center.y), 300);
+
+      if (Math.random() > 0.5) {
+        c.entities.create(Food, { center: _.sample(lands).center });
+      }
+
+
+      var forestCenter = u.p(center.x, center.y - Game.GRID_SIZE.x * 4);
+      world.createForest(c, forestCenter);
+
+      if (Math.random() > 0.8) {
+        c.entities.create(Fire, { center: u.cp(forestCenter) });
+      }
     },
 
     stepFires: function(c) {
@@ -73,9 +90,9 @@
       return c.entities.create(Tree, { center: cent });
     },
 
-    createLand: function(c, center) {
+    createLand: function(c, center, landCount) {
       var lands = [c.entities.create(Land, { center: center })];
-      for (var i = 0; i < 300; i++) {
+      for (var i = 0; i < landCount; i++) {
         lands.push(this.growLand(c, lands));
       }
 
