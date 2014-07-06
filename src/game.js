@@ -9,6 +9,13 @@
 
   Game.GRID_SIZE = { x: 16, y: 16 };
 
+  Game.DIR_TO_VECTOR = {
+    LEFT: u.p(-Game.GRID_SIZE.x, 0),
+    RIGHT: u.p(Game.GRID_SIZE.x, 0),
+    UP: u.p(0, -Game.GRID_SIZE.y),
+    DOWN: u.p(0, Game.GRID_SIZE.y )
+  };
+
   Game.prototype = {
     update: function() {
       world.update();
@@ -23,6 +30,14 @@
       }
     },
 
+    destroy: function(entity) {
+      if (this.mary.hand.carrying === entity) {
+        this.mary.hand.dropIfCarrying();
+      }
+
+      this.c.entities.destroy(entity);
+    },
+
     isClear: function(center, types) {
       return !_.some(this.c.entities.all(), function(e) {
         return e.center.x === center.x &&
@@ -35,6 +50,12 @@
     atSquare: function(center) {
       return _.filter(this.c.entities.all(), function(e) {
         return e.center.x === center.x && e.center.y === center.y;
+      });
+    },
+
+    getPickUpabbleEntityAtSquare: function(center) {
+      return _.find(this.atSquare(center), function(e) {
+        return !(e instanceof Land) && !(e instanceof Hand);
       });
     }
   };

@@ -55,8 +55,7 @@
 
       this._currentCollisionPairs = u.pairs(fires, trees)
         .concat(u.pairs(fires, marys))
-        .concat(u.pairs(fires, foods))
-        .concat(u.pairs(foods, marys));
+        .concat(u.pairs(fires, foods));
 
       // test collisions
       while (this._currentCollisionPairs.length > 0) {
