@@ -28,6 +28,7 @@
   Mary.prototype = {
     update: function(delta) {
       this.move();
+      this.pickUpIfPossible();
       this.game.c.renderer.setViewCenter(this.center);
       this.reduceFood();
       this.hand.center = this.getHandPosition();
@@ -43,10 +44,14 @@
       }
     },
 
-    pickUp: function(entity) {
-      if (entity instanceof Food) {
-        this.food = this.MAX_FOOD;
-        this.game.c.entities.destroy(entity);
+    pickUpIfPossible: function() {
+      if (this.game.c.inputter.isDown(this.game.c.inputter.SPACE)) {
+        var entitiesUnderHand = this.game.atSquare(this.hand.center);
+        var food = _.find(entitiesUnderHand, function(e) { return e instanceof Food; });
+        if (food !== undefined) {
+          this.food = this.MAX_FOOD;
+          this.game.c.entities.destroy(food);
+        }
       }
     },
 
