@@ -27,8 +27,7 @@
 
     isClear: function(center, types) {
       return !_.some(this.c.entities.all(), function(e) {
-        return e.center !== undefined &&
-          e.center.x === center.x &&
+        return e.center.x === center.x &&
           e.center.y === center.y &&
           (types === undefined ||
            _.any(types, function(type) { return e instanceof type; }));
