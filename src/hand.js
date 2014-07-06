@@ -2,7 +2,8 @@
   var Hand = exports.Hand = function Hand(game, settings) {
     this.game = game;
     this.zindex = 2;
-    this.maryMovedTo(settings.mary.center, "UP");
+    this.maryMovedTo(settings.maryCenter, "UP");
+    this.moveBlockers = settings.moveBlockers;
     this.mary = settings.mary;
     this.size = Game.GRID_SIZE;
   };
@@ -50,7 +51,7 @@
     isMoveClear: function(maryCenter, dir) {
       return !this.isCarrying() ||
         this.game.isClear(u.vAdd(maryCenter, Game.DIR_TO_VECTOR[dir]),
-                          [Tree, Food]);
+                          this.moveBlockers);
     },
 
     maryMovedTo: function(center, dir) {

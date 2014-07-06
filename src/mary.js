@@ -15,7 +15,12 @@
       DOWN: this.game.c.inputter.DOWN_ARROW
     };
 
-    this.hand = this.game.c.entities.create(Hand, { mary: this });
+    this.moveBlockers = [Tree, Food];
+    this.hand = this.game.c.entities.create(Hand, {
+      mary: this, // only for consume()
+      maryCenter: this.center,
+      moveBlockers: this.moveBlockers
+    });
   };
 
   Mary.prototype = {
@@ -44,7 +49,7 @@
     },
 
     isMoveClear: function(center, dir) {
-      return (this.game.isClear(center, [Tree, Food])
+      return (this.game.isClear(center, this.moveBlockers)
               || this.hand.isCarrying(this.game.getPickUpabbleEntityAtSquare(center))) &&
         this.hand.isMoveClear(center, dir);
     },
