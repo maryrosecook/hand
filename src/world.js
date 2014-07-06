@@ -19,6 +19,28 @@
       if (Math.random() > 0.1) {
         this.stepFires(this.c);
       }
+
+      this.driftSeaborneObjects();
+    },
+
+    driftables: [Food],
+    driftSeaborneObjects: function() {
+      var self = this;
+      u.every(1000, function() {
+        var lands = this.c.entities.all(Land);
+        _.filter(this.c.entities.all(), function(e) {
+          return _.any(self.driftables, function(D) { return e instanceof D; }) &&
+            _.filter(lands, function(l) {
+              return l.center.x === e.center.x && l.center.y === e.center.y;
+            }).length === 0 &&
+            !self.c.game.mary.hand.isCarrying(e);
+        }).forEach(function(drifting) {
+          drifting.center.x += Game.GRID_SIZE.x;
+          drifting.center.y += Game.GRID_SIZE.y;
+        });
+
+        return true;
+      }, this);
     },
 
     createIsland: function(c, center) {
