@@ -33,6 +33,12 @@
           (types === undefined ||
            _.any(types, function(type) { return e instanceof type; }));
       });
+    },
+
+    atSquare: function(center) {
+      return _.filter(this.c.entities.all(), function(e) {
+        return e.center.x === center.x && e.center.y === center.y;
+      });
     }
   };
 })(this);
