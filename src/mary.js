@@ -15,7 +15,7 @@
       DOWN: this.game.c.inputter.DOWN_ARROW
     };
 
-    this.moveBlockers = [Tree, Food];
+    this.moveBlockers = [Tree, Food, Person];
     this.hand = this.game.c.entities.create(Hand, {
       mary: this, // only for consume()
       maryCenter: this.center,
