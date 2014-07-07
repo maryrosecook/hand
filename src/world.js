@@ -14,8 +14,8 @@
                                     _.random(25, 50) * Game.GRID_SIZE.x));
       this.createIsland(this.c, u.p(_.random(-50, 0) * Game.GRID_SIZE.x,
                                     _.random(-50, 0) * Game.GRID_SIZE.x));
-      // this.createIsland(this.c, u.p(_.random(25, -50) * Game.GRID_SIZE.x,
-      //                               _.random(25, -50) * Game.GRID_SIZE.x));
+      this.createIsland(this.c, u.p(_.random(25, -50) * Game.GRID_SIZE.x,
+                                    _.random(25, -50) * Game.GRID_SIZE.x));
     },
 
     update: function() {
