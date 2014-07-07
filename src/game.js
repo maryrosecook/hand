@@ -19,15 +19,6 @@
   Game.prototype = {
     update: function() {
       world.update();
-    },
-
-    collision: function(e1, e2) {
-      var c = new Collision(e1, e2);
-      if (c.g(Mary) && c.g(Fire)) {
-        world.destroy(c.g(Mary));
-      } else if (c.g(Fire) && c.g(Tree)) {
-        world.destroy(c.g(Tree));
-      }
     }
   };
 })(this);

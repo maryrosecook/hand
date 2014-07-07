@@ -9,7 +9,6 @@
 
     var self = this;
     this.ticker = new Coquette.Ticker(this, function(interval) {
-      self.collider.update(interval);
       self.runner.update(interval);
       if (game.update !== undefined) {
         game.update(interval);
@@ -46,25 +45,6 @@
   Collider.prototype = {
     _collideRecords: [],
     _currentCollisionPairs: [],
-
-    update: function() {
-      var fires = this.c.entities.all(Fire);
-      var trees = this.c.entities.all(Tree);
-      var marys = this.c.entities.all(Mary);
-      var foods = this.c.entities.all(Food);
-
-      this._currentCollisionPairs = u.pairs(fires, trees)
-        .concat(u.pairs(fires, marys))
-        .concat(u.pairs(fires, foods));
-
-      // test collisions
-      while (this._currentCollisionPairs.length > 0) {
-        var pair = this._currentCollisionPairs.shift();
-        if (Maths.rectanglesIntersecting(pair[0], pair[1])) {
-          this.c.game.collision(pair[0], pair[1]);
-        }
-      }
-    },
 
     createEntity: function(entity) {
       var ent = this.c.entities.all();
@@ -893,7 +873,6 @@
 
     create: function(Constructor, settings, callback) {
       var entity = new Constructor(this.game, settings || {});
-      this.c.collider.createEntity(entity);
       this._entities.push(entity);
       return entity;
     },
@@ -901,7 +880,6 @@
     destroy: function(entity, callback) {
       for(var i = 0; i < this._entities.length; i++) {
         if(this._entities[i] === entity) {
-          this.c.collider.destroyEntity(entity);
           this._entities.splice(i, 1);
           break;
         }
