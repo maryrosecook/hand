@@ -158,7 +158,7 @@
       var forestCenter = u.p(center.x, center.y - Game.GRID_SIZE.x * 4);
       this.createForest(c, forestCenter);
 
-      if (Math.random() > 0.0) {
+      if (Math.random() > 0.8) {
         this.create(Fire, { center: u.cp(forestCenter) });
       }
     },
