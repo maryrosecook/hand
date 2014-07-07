@@ -15,17 +15,15 @@
       DOWN: this.game.c.inputter.DOWN_ARROW
     };
 
-    this.moveBlockers = [Tree, Food, Person];
-    this.hand = this.game.c.entities.create(Hand, {
+    this.hand = world.create(Hand, {
       mary: this, // only for consume()
-      maryCenter: this.center,
-      moveBlockers: this.moveBlockers
+      maryCenter: this.center
     });
   };
 
   Mary.prototype = {
     update: function(delta) {
-      this.move();
+      this.handleMovement();
       this.game.c.renderer.setViewCenter(this.center);
       this.reduceFood();
     },
@@ -36,12 +34,12 @@
 
     collision: function(other) {
       if (other instanceof Fire) {
-        this.game.c.entities.destroy(this);
+        world.destroy(this);
       }
     },
 
     movementFrequency: function() {
-      if (!this.game.isClear(this.center, [Land])) {
+      if (!world.isClear(this.center, [Land])) {
         return 50;
       } else {
         return 400;
@@ -49,8 +47,8 @@
     },
 
     isMoveClear: function(center, dir) {
-      return (this.game.isClear(center, this.moveBlockers)
-              || this.hand.isCarrying(this.game.getPickUpabbleEntityAtSquare(center))) &&
+      return (world.isClear(center, world.MOVE_BLOCKERS)
+              || this.hand.isCarrying(world.getPickUpabbleEntityAtSquare(center))) &&
         this.hand.isMoveClear(center, dir);
     },
 
@@ -70,14 +68,14 @@
       this.keyMap["DOWN"] = this.keyMapValue("DOWN");
     },
 
-    move: function() {
+    handleMovement: function() {
       this.updateKeyMap();
       u.every(this.movementFrequency(), function() {
         var dir = this.getCurrentDir();
         if (dir !== undefined) {
           var newPosition = u.vAdd(this.center, Game.DIR_TO_VECTOR[dir]);
           if (this.isMoveClear(newPosition, dir)) {
-            this.center = newPosition;
+            world.move(this, newPosition);
             this.hand.maryMovedTo(this.center, dir);
             return true;
           } else if (this.isMoveClear(this.center, dir)) { // try just rotating
@@ -106,10 +104,10 @@
     },
 
     consume: function(center) {
-      var entity = this.game.getPickUpabbleEntityAtSquare(center);
+      var entity = world.getPickUpabbleEntityAtSquare(center);
       if (entity instanceof Food) {
         this.food = this.MAX_FOOD;
-        this.game.destroy(entity);
+        world.destroy(entity);
       }
     },
 

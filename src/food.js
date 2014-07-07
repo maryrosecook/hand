@@ -8,5 +8,8 @@
   };
 
   Food.prototype = {
+    move: function(center) {
+      world.move(this, center);
+    }
   };
 })(this);

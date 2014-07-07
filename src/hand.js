@@ -2,8 +2,7 @@
   var Hand = exports.Hand = function Hand(game, settings) {
     this.game = game;
     this.zindex = 2;
-    this.maryMovedTo(settings.maryCenter, "UP");
-    this.moveBlockers = settings.moveBlockers;
+    this.center = u.vAdd(settings.maryCenter, Game.DIR_TO_VECTOR["UP"]);
     this.mary = settings.mary;
     this.size = Game.GRID_SIZE;
   };
@@ -15,7 +14,7 @@
       }
 
       if (this.game.c.inputter.isDown(this.game.c.inputter.CONTROL)) {
-        var entity = this.game.getPickUpabbleEntityAtSquare(this.center);
+        var entity = world.getPickUpabbleEntityAtSquare(this.center);
         if (entity instanceof Person || entity instanceof Food) {
           this.pickUp(entity);
         }
@@ -50,14 +49,14 @@
 
     isMoveClear: function(maryCenter, dir) {
       return !this.isCarrying() ||
-        this.game.isClear(u.vAdd(maryCenter, Game.DIR_TO_VECTOR[dir]),
-                          this.moveBlockers);
+        world.isClear(u.vAdd(maryCenter, Game.DIR_TO_VECTOR[dir]),
+                      world.MOVE_BLOCKERS);
     },
 
     maryMovedTo: function(center, dir) {
-      this.center = u.vAdd(center, Game.DIR_TO_VECTOR[dir]);
+      world.move(this, u.vAdd(center, Game.DIR_TO_VECTOR[dir]));
       if (this.isCarrying()) {
-        this.carrying.center = u.cp(this.center);
+        this.carrying.move(u.cp(this.center))
       }
     }
   };

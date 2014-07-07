@@ -8,7 +8,7 @@
 
     var self = this;
     setTimeout(function() {
-      game.c.entities.destroy(self);
+      world.destroy(self);
     }, Math.random() * 10000);
   };
 

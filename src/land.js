@@ -3,6 +3,7 @@
     this.game = game;
     this.zindex = -2;
     this.center = settings.center;
+    this.landMass = settings.landMass;
     this.size = Game.GRID_SIZE;
     this.color = "white";
   };
