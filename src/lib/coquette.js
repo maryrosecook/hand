@@ -817,7 +817,9 @@
                    this._viewSize.y);
 
       // draw game and entities
-      var drawables = this.c.entities.all().concat().sort(zindexSort);
+      var drawables = _.filter(this.c.entities.all(), function(e) {
+        return this.onScreen(e);
+      }, this).sort(zindexSort);
       for (var i = 0, len = drawables.length; i < len; i++) {
         var e = drawables[i];
         if (e.draw === undefined) {
