@@ -10,12 +10,31 @@
 
     seed: function() {
       this.createHomeIsland(this.c, u.p(96, 96));
-      this.createIsland(this.c, u.p(_.random(25, 50) * Game.GRID_SIZE.x,
-                                    _.random(25, 50) * Game.GRID_SIZE.x));
-      this.createIsland(this.c, u.p(_.random(-50, 0) * Game.GRID_SIZE.x,
-                                    _.random(-50, 0) * Game.GRID_SIZE.x));
-      this.createIsland(this.c, u.p(_.random(25, -50) * Game.GRID_SIZE.x,
-                                    _.random(25, -50) * Game.GRID_SIZE.x));
+
+      _.times(4, function() {
+        this.createIsland(this.c, u.p(_.random(-50, 50) * Game.GRID_SIZE.x,
+                                      _.random(-50, 50) * Game.GRID_SIZE.x));
+      }, this);
+
+      _.times(4, function() {
+        this.createIsland(this.c, u.p(_.random(-100, 100) * Game.GRID_SIZE.x,
+                                      _.random(-100, 100) * Game.GRID_SIZE.x));
+      }, this);
+
+      _.times(4, function() {
+        this.createIsland(this.c, u.p(_.random(-150, 150) * Game.GRID_SIZE.x,
+                                      _.random(-150, 150) * Game.GRID_SIZE.x));
+      }, this);
+
+      _.times(4, function() {
+        this.createIsland(this.c, u.p(_.random(-200, 200) * Game.GRID_SIZE.x,
+                                      _.random(-200, 200) * Game.GRID_SIZE.x));
+      }, this);
+
+      _.times(4, function() {
+        this.createIsland(this.c, u.p(_.random(-250, 250) * Game.GRID_SIZE.x,
+                                      _.random(-250, 250) * Game.GRID_SIZE.x));
+      }, this);
     },
 
     update: function() {
@@ -139,7 +158,7 @@
       var forestCenter = u.p(center.x, center.y - Game.GRID_SIZE.x * 4);
       this.createForest(c, forestCenter);
 
-      if (Math.random() > 0.8) {
+      if (Math.random() > 0.0) {
         this.create(Fire, { center: u.cp(forestCenter) });
       }
     },
