@@ -34,6 +34,16 @@
     instanceofs: function(obj, constructors) {
       return _.any(constructors, function(C) { return obj instanceof C; });
     },
+
+    types: function(e) {
+      var proto = e.__proto__;
+      if (proto === Object.prototype) {
+        return [];
+      } else {
+        return [proto].concat(this.types(proto))
+      }
+    },
+
     pairs: function(arr1, arr2) {
       var pairs = [];
       for (var i = 0; i < arr1.length; i++) {
