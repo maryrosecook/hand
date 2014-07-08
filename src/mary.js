@@ -1,7 +1,7 @@
 ;(function(exports) {
   exports.Mary = function Mary(game, settings) {
     this.game = game;
-    this.zindex = 1;
+    this.zindex = 2;
     this.center = settings.center;
     this.size = Game.GRID_SIZE;
     this.pack = [];
