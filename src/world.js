@@ -124,8 +124,7 @@
           }) &&
           !world.mary.hand.isCarrying(e);
       }).forEach(function(drifting) {
-        drifting.center.x += Game.GRID_SIZE.x;
-        drifting.center.y += Game.GRID_SIZE.y;
+        drifting.move(u.vAdd(drifting.center, Game.GRID_SIZE))
       });
     }, 1000),
 
