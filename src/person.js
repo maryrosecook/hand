@@ -31,7 +31,12 @@
             var destination = getClearDestination(currentLand.landMass);
             this.path = astar(this.center, destination.center);
           } else {
-            this.move(this.path.shift());
+            var nextCenter = this.path.shift();
+            if (world.isClear(nextCenter, world.MOVE_BLOCKERS)) {
+              this.move(nextCenter);
+            } else {
+              this.path = undefined; // plan new path
+            }
           }
         }
 

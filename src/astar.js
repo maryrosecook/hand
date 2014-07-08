@@ -19,7 +19,7 @@
       var x = fScore.pop();
       var xId = world.locId(x);
       if (xId === goalId) {
-        return reconstructPath(cameFrom, goal);
+        return _.rest(reconstructPath(cameFrom, goal)); // drop start
       }
 
       delete openSet[xId];
