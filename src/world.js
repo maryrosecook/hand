@@ -93,6 +93,10 @@
       });
     },
 
+    getAt: function(center, type) {
+      return _.find(this.atSquare(center), function(e) { return e instanceof type; });
+    },
+
     atSquare: function(center) {
       return this.locs[this.locId(center)] || [];
     },
