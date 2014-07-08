@@ -120,6 +120,11 @@
                       this.center.y + ((this.MAX_FOOD - this.food) / 2 * pxPerFood)),
                   u.p(Game.GRID_SIZE.x, this.food * pxPerFood),
                   "yellow");
+    },
+
+    die: function() {
+      this.hand.die();
+      world.destroy(this);
     }
   };
 

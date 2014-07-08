@@ -8,6 +8,8 @@
   };
 
   Tree.prototype = {
-
+    die: function() {
+      world.destroy(this);
+    }
   };
 })(this);

@@ -5,7 +5,8 @@
       this.landMasses = [];
       this.locs = {};
       this.seed();
-      this.MOVE_BLOCKERS = [Tree, Food, Person];
+      this.MOVE_BLOCKERS = [Tree, Food, Person, Mary];
+      this.FLAMMABLE = [Tree, Food, Person, Mary];
     },
 
     seed: function() {
@@ -221,7 +222,7 @@
 
   var fireNeighbor = function(entity) {
     return _.find(_.shuffle(world.adjNeighbors(entity.center)), function(center) {
-      return world.isClear(center, [Fire]) && !world.isClear(center, [Tree])
+      return world.isClear(center, [Fire]) && !world.isClear(center, world.FLAMMABLE);
     });
   };
 

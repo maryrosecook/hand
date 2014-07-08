@@ -31,6 +31,9 @@
       return new Machine(states, init);
     },
 
+    instanceofs: function(obj, constructors) {
+      return _.any(constructors, function(C) { return obj instanceof C; });
+    },
     pairs: function(arr1, arr2) {
       var pairs = [];
       for (var i = 0; i < arr1.length; i++) {

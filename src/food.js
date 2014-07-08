@@ -10,6 +10,10 @@
   Food.prototype = {
     move: function(center) {
       world.move(this, center);
+    },
+
+    die: function() {
+      world.destroy(this);
     }
   };
 })(this);

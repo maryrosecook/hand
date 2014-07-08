@@ -48,6 +48,10 @@
       world.move(this, center);
     },
 
+    die: function() {
+      world.destroy(this);
+    },
+
     pickedUp: function() {
       this.path = undefined;
     }

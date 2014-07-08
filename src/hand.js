@@ -58,6 +58,10 @@
       if (this.isCarrying()) {
         this.carrying.move(u.cp(this.center))
       }
+    },
+
+    die: function() {
+      world.destroy(this);
     }
   };
 })(this);
