@@ -17,7 +17,7 @@
       var cohabitors = world.atSquare(this.center);
       for (var i = 0; i < cohabitors.length; i++) {
         if (cohabitors[i] instanceof Mary) {
-          world.destroy(this.game.mary);
+          world.destroy(cohabitors[i]);
         } else if (cohabitors[i] instanceof Tree) {
           world.destroy(cohabitors[i]);
         }

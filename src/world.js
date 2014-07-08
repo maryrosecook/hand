@@ -9,7 +9,7 @@
     },
 
     seed: function() {
-      this.createHomeIsland(this.c, u.p(96, 96));
+      var homeLandMass = this.createHomeIsland(this.c, u.p(96, 96));
 
       _.times(4, function() {
         this.createIsland(this.c, u.p(_.random(-50, 50) * Game.GRID_SIZE.x,
@@ -35,6 +35,12 @@
         this.createIsland(this.c, u.p(_.random(-250, 250) * Game.GRID_SIZE.x,
                                       _.random(-250, 250) * Game.GRID_SIZE.x));
       }, this);
+
+      this.mary = this.create(Mary, {
+        center: _.find(_.shuffle(homeLandMass.lands), function(land) {
+          return this.isClear(land, this.MOVE_BLOCKERS);
+        }, this).center
+      });
     },
 
     update: function() {
@@ -58,8 +64,8 @@
     },
 
     destroy: function(entity) {
-      if (this.c.game.mary.hand.isCarrying(entity)) {
-        this.c.game.mary.hand.dropIfCarrying();
+      if (world.mary.hand.isCarrying(entity)) {
+        world.mary.hand.dropIfCarrying();
       }
 
       this._removeEntityFromLocs(entity);
@@ -117,7 +123,7 @@
             !_.some(lands, function(l) {
               return l.center.x === e.center.x && l.center.y === e.center.y;
             }) &&
-            !self.c.game.mary.hand.isCarrying(e);
+            !world.mary.hand.isCarrying(e);
         }).forEach(function(drifting) {
           drifting.center.x += Game.GRID_SIZE.x;
           drifting.center.y += Game.GRID_SIZE.y;
@@ -153,6 +159,7 @@
 
       var forestCenter = u.p(center.x, center.y - Game.GRID_SIZE.x * 4);
       this.createForest(c, forestCenter);
+      return landMass;
     },
 
     createIsland: function(c, center) {

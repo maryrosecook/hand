@@ -4,7 +4,6 @@
     this.c = new Coquette(this, "screen", 1008, 496, "blue");
     this.c.game = this;
     world.setup(this.c);
-    this.mary = world.create(Mary, { center: u.p(96, 144) });
   };
 
   Game.GRID_SIZE = { x: 16, y: 16 };
