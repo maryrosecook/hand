@@ -24,7 +24,7 @@
     // },
 
     wander: function() {
-      u.every(1000, function() {
+      u.every(400, function() {
         var currentLand = world.getAt(this.center, Land);
         if (currentLand !== undefined) {
           if (this.path === undefined || this.path.length === 0) {
