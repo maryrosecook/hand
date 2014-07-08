@@ -133,7 +133,13 @@
 
       landMass.lands = [this.create(Land, { center: center })];
       for (var i = 0; i < landCount; i++) {
-        landMass.lands.push(this.growLand(c, landMass, landMass.lands));
+        var parentLand = _.find(_.shuffle(landMass.lands), landNeighbor);
+        if (parentLand !== undefined) {
+          var center = landNeighbor(parentLand);
+          landMass.lands.push(this.create(Land, { center: center, landMass: landMass }));
+        } else {
+          break; // in center of another island - abort
+        }
       }
 
       return landMass;
@@ -143,6 +149,7 @@
       var landMass = this.createLandMass(c, center, 600);
       this.create(Food, { center: _.sample(landMass.lands).center });
       this.create(Food, { center: _.sample(landMass.lands).center });
+      this.create(Person, { center: _.sample(landMass.lands).center });
 
       var forestCenter = u.p(center.x, center.y - Game.GRID_SIZE.x * 4);
       this.createForest(c, forestCenter);
@@ -179,18 +186,13 @@
     createForest: function(c, center) {
       var trees = [this.create(Tree, { center: center })];
       for (var i = 0; i < 80; i++) {
-        trees.push(this.growForest(c, trees));
+        var treeParent = _.find(_.shuffle(trees), forestNeighbor);
+        if (treeParent !== undefined) {
+          trees.push(this.create(Tree, { center: forestNeighbor(treeParent) }));
+        } else {
+          break; // in center of forest - abort
+        }
       }
-    },
-
-    growForest: function(c, trees) {
-      var cent = forestNeighbor(_.find(_.shuffle(trees), forestNeighbor));
-      return this.create(Tree, { center: cent });
-    },
-
-    growLand: function(c, landMass, lands) {
-      var cent = landNeighbor(_.find(_.shuffle(lands), landNeighbor));
-      return this.create(Land, { center: cent, landMass: landMass });
     },
 
     adjNeighbors: function(center) {
