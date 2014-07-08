@@ -115,24 +115,19 @@
     },
 
     driftables: [Food],
-    driftSeaborneObjects: function() {
-      var self = this;
-      u.every(1000, function() {
-        var lands = this.c.entities.all(Land);
-        _.filter(this.c.entities.all(), function(e) {
-          return _.any(self.driftables, function(D) { return e instanceof D; }) &&
-            !_.some(lands, function(l) {
-              return l.center.x === e.center.x && l.center.y === e.center.y;
-            }) &&
-            !world.mary.hand.isCarrying(e);
-        }).forEach(function(drifting) {
-          drifting.center.x += Game.GRID_SIZE.x;
-          drifting.center.y += Game.GRID_SIZE.y;
-        });
-
-        return true;
-      }, this);
-    },
+    driftSeaborneObjects: _.throttle(function() {
+      var lands = this.c.entities.all(Land);
+      _.filter(this.c.entities.all(), function(e) {
+        return _.any(self.driftables, function(D) { return e instanceof D; }) &&
+          !_.some(lands, function(l) {
+            return l.center.x === e.center.x && l.center.y === e.center.y;
+          }) &&
+          !world.mary.hand.isCarrying(e);
+      }).forEach(function(drifting) {
+        drifting.center.x += Game.GRID_SIZE.x;
+        drifting.center.y += Game.GRID_SIZE.y;
+      });
+    }, 1000),
 
     createLandMass: function(c, center, landCount) {
       var landMass = new LandMass();

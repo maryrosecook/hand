@@ -5,6 +5,23 @@
     this.center = settings.center;
     this.size = Game.GRID_SIZE;
     this.color = "gray";
+
+    this.wander = _.throttle(function() {
+      var currentLand = world.getAt(this.center, Land);
+      if (currentLand !== undefined) {
+        if (this.path === undefined || this.path.length === 0) {
+          var destination = getClearDestination(currentLand.landMass);
+          this.path = astar(this.center, destination.center);
+        } else {
+          var nextCenter = this.path.shift();
+          if (world.isClear(nextCenter, world.MOVE_BLOCKERS)) {
+            this.move(nextCenter);
+          } else {
+            this.path = undefined; // plan new path
+          }
+        }
+      }
+    }, 400);
   };
 
   Person.prototype = {
@@ -22,27 +39,6 @@
     //     screen.fillRect(l.x, l.y, 8, 8);
     //   }
     // },
-
-    wander: function() {
-      u.every(400, function() {
-        var currentLand = world.getAt(this.center, Land);
-        if (currentLand !== undefined) {
-          if (this.path === undefined || this.path.length === 0) {
-            var destination = getClearDestination(currentLand.landMass);
-            this.path = astar(this.center, destination.center);
-          } else {
-            var nextCenter = this.path.shift();
-            if (world.isClear(nextCenter, world.MOVE_BLOCKERS)) {
-              this.move(nextCenter);
-            } else {
-              this.path = undefined; // plan new path
-            }
-          }
-        }
-
-        return true;
-      }, this);
-    },
 
     move: function(center) {
       world.move(this, center);

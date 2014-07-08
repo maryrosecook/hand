@@ -13,20 +13,6 @@
       return x;
     },
 
-    everys: {},
-    every: function(t, f, ctx) {
-      var id = fId(f);
-      if(this.everys[id] === undefined) {
-        this.everys[id] = {
-          nextRun: nextRunTime(t)
-        };
-      } else if(this.everys[id].nextRun < new Date().getTime()) {
-        if (f.call(ctx) !== undefined) {
-          this.everys[id].nextRun = nextRunTime(t);
-        }
-      }
-    },
-
     machine: function(states, init) {
       return new Machine(states, init);
     },
@@ -57,6 +43,10 @@
 
     vAdd: function(v1, v2) {
       return this.p(v1.x + v2.x, v1.y + v2.y);
+    },
+
+    timePassed: function(lastTime, interval) {
+      return _.now() > lastTime + interval;
     }
   };
 
@@ -78,29 +68,5 @@
           this.current + " to " + newState;
       }
     }
-  };
-
-  var nextRunTime = function(interval) {
-    return new Date().getTime() + interval;
-  };
-
-  var fId = function(f) {
-    return hashString(f.toString());
-  };
-
-  // taken from: http://werxltd.com/wp/2010/05/13/javascript-implementation-of-javas-string-hashcode-method/
-  var hashString = function(str) {
-    var hash = 0;
-	  if(str.length === 0) {
-      return hash;
-    }
-
-	  for (i = 0; i < str.length; i++) {
-	    var char = str.charCodeAt(i);
-	    var hash = ((hash << 5) -hash ) + char;
-	    hash = hash & hash;
-	  }
-
-	  return hash;
   };
 })(this);

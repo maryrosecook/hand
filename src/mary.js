@@ -69,22 +69,23 @@
       this.keyMap["DOWN"] = this.keyMapValue("DOWN");
     },
 
+    lastMove: 0,
     handleMovement: function() {
       this.updateKeyMap();
-      u.every(this.movementFrequency(), function() {
+      if (u.timePassed(this.lastMove, this.movementFrequency())) {
         var dir = this.getCurrentDir();
         if (dir !== undefined) {
           var newPosition = u.vAdd(this.center, Game.DIR_TO_VECTOR[dir]);
           if (this.isMoveClear(newPosition, dir)) {
             world.move(this, newPosition);
             this.hand.maryMovedTo(this.center, dir);
-            return true;
+            this.lastMove = _.now();
           } else if (this.isMoveClear(this.center, dir)) { // try just rotating
             this.hand.maryMovedTo(this.center, dir);
-            return true;
+            this.lastMove = _.now();
           }
         }
-      }, this);
+      }
     },
 
     getCurrentDir: function() {
