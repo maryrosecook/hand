@@ -4,7 +4,7 @@
     this.zindex = 0;
     this.center = settings.center;
     this.size = Game.GRID_SIZE;
-    this.color = "red";
+    this.color = "darkorange";
 
     var self = this;
     setTimeout(function() {
