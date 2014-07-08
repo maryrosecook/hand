@@ -48,7 +48,8 @@
 
     isMoveClear: function(center, dir) {
       return (world.isClear(center, world.MOVE_BLOCKERS)
-              || this.hand.isCarrying(world.getPickUpabbleEntityAtSquare(center))) &&
+              || this.hand.isCarrying(world.getPickUpabbleEntityAtSquare(center))
+              || !world.isClear(center, [Mary])) &&
         this.hand.isMoveClear(center, dir);
     },
 
