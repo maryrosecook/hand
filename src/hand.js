@@ -34,6 +34,9 @@
     carrying: undefined,
     pickUp: function(entity) {
       this.carrying = entity;
+      if (entity.pickedUp !== undefined) {
+        entity.pickedUp();
+      }
     },
 
     isCarrying: function(testItem) {
