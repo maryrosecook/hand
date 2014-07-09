@@ -42,9 +42,9 @@
         }, this).center
       });
 
-      this.create(Person, { center: u.cp(this.genLastPersonCenter(1000, 2000)) });
-      this.create(Person, { center: u.cp(this.genLastPersonCenter(2000, 3000)) });
-      this.create(Person, { center: u.cp(this.genLastPersonCenter(3000, 4000)) });
+      this.create(Person, { center: u.cp(this.genLostPersonCenter(1000, 2000)) });
+      this.create(Person, { center: u.cp(this.genLostPersonCenter(2000, 3000)) });
+      this.create(Person, { center: u.cp(this.genLostPersonCenter(3000, 4000)) });
     },
 
     update: function() {
@@ -220,7 +220,7 @@
       ];
     },
 
-    genLastPersonCenter: function(minDistance, maxDistance) {
+    genLostPersonCenter: function(minDistance, maxDistance) {
       return _.find(this.c.entities.all(Land), function(land) {
         var distance = u.distance(this.mary.center, land.center);
         return distance > minDistance && distance < maxDistance &&
