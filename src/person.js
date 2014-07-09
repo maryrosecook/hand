@@ -21,7 +21,7 @@
           }
         }
       }
-    }, 400);
+    }, 400, { trailing: false });
   };
 
   Person.prototype = {
