@@ -1,12 +1,12 @@
 ;(function(exports) {
   exports.world = {
     setup: function(c) {
+      this.MOVE_BLOCKERS = [Tree, Food, Person, Mary];
+      this.FLAMMABLE = [Tree, Food, Person, Mary];
       this.c = c;
       this.landMasses = [];
       this.locs = {};
       this.seed();
-      this.MOVE_BLOCKERS = [Tree, Food, Person, Mary];
-      this.FLAMMABLE = [Tree, Food, Person, Mary];
     },
 
     seed: function() {
