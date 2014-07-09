@@ -13,28 +13,27 @@
       var homeLandMass = this.createHomeIsland(this.c, u.p(96, 96));
 
       _.times(4, function() {
-        this.createIsland(this.c, u.p(_.random(-50, 50) * Game.GRID_SIZE.x,
-                                      _.random(-50, 50) * Game.GRID_SIZE.x));
+        this.createIsland(this.c, this.randomSquareCenter(0, 50));
       }, this);
 
       _.times(4, function() {
-        this.createIsland(this.c, u.p(_.random(-100, 100) * Game.GRID_SIZE.x,
-                                      _.random(-100, 100) * Game.GRID_SIZE.x));
+        this.createIsland(this.c, this.randomSquareCenter(50, 100));
       }, this);
 
       _.times(4, function() {
-        this.createIsland(this.c, u.p(_.random(-150, 150) * Game.GRID_SIZE.x,
-                                      _.random(-150, 150) * Game.GRID_SIZE.x));
+        this.createIsland(this.c, this.randomSquareCenter(100, 150));
       }, this);
 
       _.times(4, function() {
-        this.createIsland(this.c, u.p(_.random(-200, 200) * Game.GRID_SIZE.x,
-                                      _.random(-200, 200) * Game.GRID_SIZE.x));
+        this.createIsland(this.c, this.randomSquareCenter(150, 200));
       }, this);
 
       _.times(4, function() {
-        this.createIsland(this.c, u.p(_.random(-250, 250) * Game.GRID_SIZE.x,
-                                      _.random(-250, 250) * Game.GRID_SIZE.x));
+        this.createIsland(this.c, this.randomSquareCenter(200, 250));
+      }, this);
+
+      _.times(4, function() {
+        this.createIsland(this.c, this.randomSquareCenter(250, 300));
       }, this);
 
       this.mary = this.create(Mary, {
@@ -50,6 +49,19 @@
       }
 
       this.driftSeaborneObjects();
+    },
+
+    randomSquareCenter: function(minGridDistance, maxGridDistance) {
+      var magnitude = _.random(minGridDistance, maxGridDistance);
+      var randomUnit = u.unitVector({
+        x: Math.random() * u.randomSign(),
+        y: Math.random() * u.randomSign()
+      });
+
+      return {
+        x: Math.floor(randomUnit.x * magnitude) * Game.GRID_SIZE.x,
+        y: Math.floor(randomUnit.y * magnitude) * Game.GRID_SIZE.y
+      };
     },
 
     create: function(Constructor, settings) {

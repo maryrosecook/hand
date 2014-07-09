@@ -47,6 +47,21 @@
 
     timePassed: function(lastTime, interval) {
       return _.now() > lastTime + interval;
+    },
+
+    randomSign: function() {
+      return Math.random() < 0.5 ? -1 : 1;
+    },
+
+    magnitude: function(vector) {
+      return Math.sqrt(vector.x * vector.x + vector.y* vector.y);
+    },
+
+    unitVector: function(vector) {
+      return {
+        x: vector.x / this.magnitude(vector),
+        y: vector.y / this.magnitude(vector)
+      };
     }
   };
 
