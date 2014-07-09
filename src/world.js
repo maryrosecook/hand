@@ -42,9 +42,22 @@
         }, this).center
       });
 
-      this.create(Person, { center: u.cp(this.genLostPersonCenter(1000, 2000)) });
-      this.create(Person, { center: u.cp(this.genLostPersonCenter(2000, 3000)) });
-      this.create(Person, { center: u.cp(this.genLostPersonCenter(3000, 4000)) });
+      this.create(Person, { center: u.cp(this.genLostPersonCenter(60, 125)) });
+      this.create(Person, { center: u.cp(this.genLostPersonCenter(125, 180)) });
+      this.create(Person, { center: u.cp(this.genLostPersonCenter(180, 240)) });
+
+      // create food bonanza on random island
+      var foodLandMass = _.find(_.shuffle(this.landMasses), function(landMass) {
+        return isInGridDistance(60, 125, this.mary, landMass.lands[0]);
+      }, this);
+
+      _.times(20, function() {
+        this.create(Food, {
+          center: _.find(_.shuffle(foodLandMass.lands), function(land) {
+            return this.isClear(land.center, this.MOVE_BLOCKERS);
+          }, this).center
+        });
+      }, this);
     },
 
     update: function() {
@@ -165,7 +178,6 @@
     createHomeIsland: function(c, center) {
       var landMass = this.createLandMass(c, center, 600);
       this.create(Food, { center: _.sample(landMass.lands).center });
-      this.create(Food, { center: _.sample(landMass.lands).center });
 
       var forestCenter = u.p(center.x, center.y - Game.GRID_SIZE.x * 4);
       this.createForest(c, forestCenter);
@@ -220,10 +232,9 @@
       ];
     },
 
-    genLostPersonCenter: function(minDistance, maxDistance) {
+    genLostPersonCenter: function(minGridDistance, maxGridDistance) {
       return _.find(this.c.entities.all(Land), function(land) {
-        var distance = u.distance(this.mary.center, land.center);
-        return distance > minDistance && distance < maxDistance &&
+        return isInGridDistance(minGridDistance, maxGridDistance, this.mary, land) &&
           this.isClear(land, this.MOVE_BLOCKERS);
       }, this).center;
     }
@@ -231,6 +242,11 @@
 
   var LandMass = function() {
 
+  };
+
+  var isInGridDistance = function(minGridDistance, maxGridDistance, item1, item2) {
+    var d = u.distance(item1.center, item2.center);
+    return d > minGridDistance * Game.GRID_SIZE.x && d < maxGridDistance * Game.GRID_SIZE.x;
   };
 
   var fireNeighbor = function(entity) {
