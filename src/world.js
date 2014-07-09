@@ -41,6 +41,10 @@
           return this.isClear(land, this.MOVE_BLOCKERS);
         }, this).center
       });
+
+      this.create(Person, { center: u.cp(this.genLastPersonCenter(1000, 2000)) });
+      this.create(Person, { center: u.cp(this.genLastPersonCenter(2000, 3000)) });
+      this.create(Person, { center: u.cp(this.genLastPersonCenter(3000, 4000)) });
     },
 
     update: function() {
@@ -162,7 +166,6 @@
       var landMass = this.createLandMass(c, center, 600);
       this.create(Food, { center: _.sample(landMass.lands).center });
       this.create(Food, { center: _.sample(landMass.lands).center });
-      this.create(Person, { center: _.sample(landMass.lands).center });
 
       var forestCenter = u.p(center.x, center.y - Game.GRID_SIZE.x * 4);
       this.createForest(c, forestCenter);
@@ -174,10 +177,6 @@
 
       if (Math.random() > 0.5) {
         this.create(Food, { center: _.sample(landMass.lands).center });
-      }
-
-      if (Math.random() > 0) {
-        this.create(Person, { center: _.sample(landMass.lands).center });
       }
 
       var forestCenter = u.p(center.x, center.y - Game.GRID_SIZE.x * 4);
@@ -219,6 +218,14 @@
         { x: x + step, y: y },
         { x: x, y: y + step }
       ];
+    },
+
+    genLastPersonCenter: function(minDistance, maxDistance) {
+      return _.find(this.c.entities.all(Land), function(land) {
+        var distance = u.distance(this.mary.center, land.center);
+        return distance > minDistance && distance < maxDistance &&
+          this.isClear(land, this.MOVE_BLOCKERS);
+      }, this).center;
     }
   };
 
