@@ -110,6 +110,10 @@
       if (entity instanceof Food) {
         this.food = this.MAX_FOOD;
         world.destroy(entity);
+      } else if (entity instanceof Tree) {
+        var woodCenter = u.cp(entity.center);
+        world.destroy(entity);
+        world.create(Wood, { center: woodCenter });
       }
     },
 

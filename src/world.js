@@ -1,8 +1,8 @@
 ;(function(exports) {
   exports.world = {
     setup: function(c) {
-      this.MOVE_BLOCKERS = [Tree, Food, Person, Mary];
-      this.FLAMMABLE = [Tree, Food, Person, Mary];
+      this.MOVE_BLOCKERS = [Tree, Food, Person, Mary, Wood];
+      this.FLAMMABLE = [Tree, Food, Person, Mary, Wood];
       this.c = c;
       this.landMasses = [];
       this.locs = {};

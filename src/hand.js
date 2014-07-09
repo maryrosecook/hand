@@ -15,7 +15,7 @@
 
       if (this.game.c.inputter.isDown(this.game.c.inputter.CONTROL)) {
         var entity = world.getPickUpabbleEntityAtSquare(this.center);
-        if (entity instanceof Person || entity instanceof Food) {
+        if (u.instanceofs(entity, [Person, Food, Wood])) {
           this.pickUp(entity);
         }
       } else {
