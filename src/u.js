@@ -57,6 +57,12 @@
       return Math.sqrt(vector.x * vector.x + vector.y* vector.y);
     },
 
+    distance: function(vector1, vector2) {
+      var x = vector1.x - vector2.x;
+      var y = vector1.y - vector2.y;
+      return Math.sqrt(x * x + y * y);
+    },
+
     unitVector: function(vector) {
       return {
         x: vector.x / this.magnitude(vector),
