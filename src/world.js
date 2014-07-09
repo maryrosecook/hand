@@ -144,7 +144,7 @@
       var landMass = new LandMass();
       this.landMasses.push(landMass);
 
-      landMass.lands = [this.create(Land, { center: center })];
+      landMass.lands = [this.create(Land, { center: center, landMass: landMass })];
       for (var i = 0; i < landCount; i++) {
         var parentLand = _.find(_.shuffle(landMass.lands), landNeighbor);
         if (parentLand !== undefined) {
