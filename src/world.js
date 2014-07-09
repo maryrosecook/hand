@@ -38,7 +38,7 @@
 
       this.mary = this.create(Mary, {
         center: _.find(_.shuffle(homeLandMass.lands), function(land) {
-          return this.isClear(land, this.MOVE_BLOCKERS);
+          return this.isClear(land.center, this.MOVE_BLOCKERS);
         }, this).center
       });
 
