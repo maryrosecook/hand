@@ -170,7 +170,7 @@
     },
 
     createIsland: function(c, center) {
-      var landMass = this.createLandMass(c, center, 300);
+      var landMass = this.createLandMass(c, center, 600);
 
       if (Math.random() > 0.5) {
         this.create(Food, { center: _.sample(landMass.lands).center });
