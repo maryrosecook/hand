@@ -26,6 +26,9 @@
       this.handleMovement();
       this.game.c.renderer.setViewCenter(this.center);
       this.reduceFood();
+      if (this.food === 0) {
+        this.die();
+      }
     },
 
     reduceFood: _.throttle(function() {
