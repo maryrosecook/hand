@@ -130,7 +130,9 @@
 
     die: function() {
       this.hand.die();
+      var bloodCenter = u.cp(this.center);
       world.destroy(this);
+      world.create(Blood, { center: bloodCenter });
     }
   };
 

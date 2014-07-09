@@ -45,7 +45,9 @@
     },
 
     die: function() {
+      var bloodCenter = u.cp(this.center);
       world.destroy(this);
+      world.create(Blood, { center: bloodCenter });
     },
 
     pickedUp: function() {
