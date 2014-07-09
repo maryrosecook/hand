@@ -55,7 +55,7 @@
 
   var getClearDestination = function(landMass) {
     return _.find(_.shuffle(landMass.lands), function(land) {
-      return world.isClear(land, world.MOVE_BLOCKERS);
+      return world.isClear(land.center, world.MOVE_BLOCKERS);
     });
   };
 })(this);

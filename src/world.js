@@ -235,7 +235,7 @@
     genLostPersonCenter: function(minGridDistance, maxGridDistance) {
       return _.find(this.c.entities.all(Land), function(land) {
         return isInGridDistance(minGridDistance, maxGridDistance, this.mary, land) &&
-          this.isClear(land, this.MOVE_BLOCKERS);
+          this.isClear(land.center, this.MOVE_BLOCKERS);
       }, this).center;
     }
   };
