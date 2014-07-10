@@ -55,7 +55,7 @@
 
   var moveCost = function(to) {
     if (world.isClear(to, world.MOVE_BLOCKERS) &&
-        world.getAt(to, Land) !== undefined) {
+        !world.isClear(to, [Land])) {
       return Game.GRID_SIZE.x;
     } else {
       return Infinity;

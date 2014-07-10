@@ -1,10 +1,14 @@
 ;(function(exports) {
   exports.world = {
     setup: function(c) {
-      this.MOVE_BLOCKERS = [Tree, Food, Person, Mary, Wood];
+      this.MOVE_BLOCKERS = [Tree, Food, Person, Mary, Wood, Cockpit];
       this.FLAMMABLE = [Tree, Food, Person, Mary, Wood];
+      this.VEHICLE_MOVEABLE = [Food, Person, Mary, Wood, Cockpit, RaftPiece, Hand];
+      this.CONSUMABLE = [Food, Tree];
+      this.PICK_UPABBLE = [Cockpit, Food, Person, Wood, RaftPiece];
       this.c = c;
       this.landMasses = [];
+      this.vehicles = [];
       this.locs = {};
       this.seed();
     },
@@ -42,9 +46,9 @@
         }, this).center
       });
 
-      this.create(Person, { center: u.cp(this.genLostPersonCenter(60, 125)) });
-      this.create(Person, { center: u.cp(this.genLostPersonCenter(125, 180)) });
-      this.create(Person, { center: u.cp(this.genLostPersonCenter(180, 240)) });
+      this.create(Person, { center: u.cp(this.genLostPersonCenter(60, 125)), color: "black"});
+      this.create(Person, { center: u.cp(this.genLostPersonCenter(125, 180)), color: "black"});
+      this.create(Person, { center: u.cp(this.genLostPersonCenter(180, 240)), color: "black"});
 
       // create food bonanza on random island
       var foodLandMass = _.find(_.shuffle(this.landMasses), function(landMass) {
@@ -122,25 +126,37 @@
       return center.x + "," + center.y;
     },
 
+    areaCenters: function(center, gridSquareSize) {
+      var centers = [];
+      for (var y = -Math.floor(gridSquareSize.y / 2);
+           y < Math.ceil(gridSquareSize.y / 2);
+           y++) {
+        for (var x = -Math.floor(gridSquareSize.x / 2);
+             x < Math.ceil(gridSquareSize.x / 2);
+             x++) {
+          centers.push({
+            x: center.x + x * Game.GRID_SIZE.x,
+            y: center.y + y * Game.GRID_SIZE.y
+          });
+        }
+      }
+
+      return centers;
+    },
+
     isClear: function(center, types) {
-      return !_.some(this.locs[this.locId(center)], function(e) {
+      return !_.some(this.atSquare(center), function(e) {
         return types === undefined ||
           _.any(types, function(type) { return e instanceof type; });
       });
     },
 
-    getAt: function(center, type) {
-      return _.find(this.atSquare(center), function(e) { return e instanceof type; });
+    getAt: function(center, types) {
+      return _.find(this.atSquare(center), _.partial(u.instanceofs, types));
     },
 
     atSquare: function(center) {
       return this.locs[this.locId(center)] || [];
-    },
-
-    getPickUpabbleEntityAtSquare: function(center) {
-      return _.find(this.atSquare(center), function(e) {
-        return !(e instanceof Land) && !(e instanceof Hand);
-      });
     },
 
     driftables: [Food],
@@ -178,6 +194,7 @@
     createHomeIsland: function(c, center) {
       var landMass = this.createLandMass(c, center, 600);
       this.create(Food, { center: _.sample(landMass.lands).center });
+      this.vehicles.push(new Raft(this.c.game, { center: _.sample(landMass.lands).center }));
 
       var forestCenter = u.p(center.x, center.y - Game.GRID_SIZE.x * 4);
       this.createForest(c, forestCenter);
@@ -195,7 +212,7 @@
       this.createForest(c, forestCenter);
 
       if (Math.random() > 0.8) {
-        this.create(Fire, { center: u.cp(forestCenter) });
+        // this.create(Fire, { center: u.cp(forestCenter) });
       }
     },
 
@@ -263,7 +280,8 @@
 
   var forestNeighbor = function(entity) {
     return _.find(_.shuffle(world.adjNeighbors(entity.center)), function(center) {
-      return world.isClear(center, [Tree, Food, Person]) && !world.isClear(center, [Land]);
+      return world.isClear(center, [Tree, Food, Person, RaftPiece]) &&
+        !world.isClear(center, [Land]);
     });
   };
 })(this);

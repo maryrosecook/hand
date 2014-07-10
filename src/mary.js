@@ -49,11 +49,11 @@
       }
     },
 
-    isMoveClear: function(center, dir) {
+    canMove: function(center, dir) {
       return (world.isClear(center, world.MOVE_BLOCKERS)
-              || this.hand.isCarrying(world.getPickUpabbleEntityAtSquare(center))
-              || !world.isClear(center, [Mary])) &&
-        this.hand.isMoveClear(center, dir);
+              || !world.isClear(center, [Mary]) // if just turning
+              || (this.hand.isCarrying() && u.vEq(this.hand.carrying.center, center))) &&
+        this.hand.canMove(center, dir);
     },
 
     keyMapValue: function(dir) {
@@ -75,15 +75,17 @@
     lastMove: 0,
     handleMovement: function() {
       this.updateKeyMap();
-      if (u.timePassed(this.lastMove, this.movementFrequency())) {
-        var dir = this.getCurrentDir();
-        if (dir !== undefined) {
-          var newPosition = u.vAdd(this.center, Game.DIR_TO_VECTOR[dir]);
-          if (this.isMoveClear(newPosition, dir)) {
+      var dir = this.getCurrentDir();
+      if (dir !== undefined) {
+        var newPosition = u.vAdd(this.center, Game.DIR_TO_VECTOR[dir]);
+        if (this.hand.isPiloting()) {
+          this.hand.pilotMove(dir); // will move mary, too
+        } else if (u.timePassed(this.lastMove, this.movementFrequency())) {
+          if (this.canMove(newPosition, dir)) {
             world.move(this, newPosition);
             this.hand.maryMovedTo(this.center, dir);
             this.lastMove = _.now();
-          } else if (this.isMoveClear(this.center, dir)) { // try just rotating
+          } else if (this.canMove(this.center, dir)) { // try just rotating
             this.hand.maryMovedTo(this.center, dir);
             this.lastMove = _.now();
           }
@@ -108,8 +110,7 @@
       this.drawFoodMeter(screen);
     },
 
-    consume: function(center) {
-      var entity = world.getPickUpabbleEntityAtSquare(center);
+    consume: function(entity) {
       if (entity instanceof Food) {
         this.food = this.MAX_FOOD;
         world.destroy(entity);

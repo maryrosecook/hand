@@ -17,7 +17,7 @@
       return new Machine(states, init);
     },
 
-    instanceofs: function(obj, constructors) {
+    instanceofs: function(constructors, obj) {
       return _.any(constructors, function(C) { return obj instanceof C; });
     },
 
@@ -41,8 +41,16 @@
       return pairs;
     },
 
+    vEq: function(v1, v2) {
+      return v1.x === v2.x && v1.y === v2.y;
+    },
+
     vAdd: function(v1, v2) {
       return this.p(v1.x + v2.x, v1.y + v2.y);
+    },
+
+    vSubtract: function(v1, v2) {
+      return this.p(v1.x - v2.x, v1.y - v2.y);
     },
 
     timePassed: function(lastTime, interval) {

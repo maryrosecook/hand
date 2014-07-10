@@ -4,10 +4,10 @@
     this.zindex = 1;
     this.center = settings.center;
     this.size = Game.GRID_SIZE;
-    this.color = "gray";
+    this.color = settings.color;
 
     this.wander = _.throttle(function() {
-      var currentLand = world.getAt(this.center, Land);
+      var currentLand = world.getAt(this.center, [Land]);
       if (currentLand !== undefined) {
         if (this.path === undefined || this.path.length === 0) {
           var destination = getClearDestination(currentLand.landMass);

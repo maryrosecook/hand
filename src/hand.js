@@ -9,15 +9,14 @@
 
   Hand.prototype = {
     update: function() {
-      if (this.game.c.inputter.isDown(this.game.c.inputter.SPACE)) {
-        this.mary.consume(this.center);
+      if (this.game.c.inputter.isDown(this.game.c.inputter.SPACE) &&
+          !world.isClear(this.center, world.CONSUMABLE)) {
+        this.mary.consume(world.getAt(this.center, world.CONSUMABLE));
       }
 
-      if (this.game.c.inputter.isDown(this.game.c.inputter.CONTROL)) {
-        var entity = world.getPickUpabbleEntityAtSquare(this.center);
-        if (u.instanceofs(entity, [Person, Food, Wood])) {
-          this.pickUp(entity);
-        }
+      if (this.game.c.inputter.isDown(this.game.c.inputter.CONTROL) &&
+          !world.isClear(this.center, world.PICK_UPABBLE)) {
+        this.pickUp(world.getAt(this.center, world.PICK_UPABBLE));
       } else {
         this.dropIfCarrying();
       }
@@ -50,10 +49,19 @@
       }
     },
 
-    isMoveClear: function(maryCenter, dir) {
+    isPiloting: function() {
+      return this.carrying instanceof Cockpit;
+    },
+
+    pilotMove: function(dir) {
+      this.carrying.move(dir);
+    },
+
+    canMove: function(maryCenter, dir) {
       return !this.isCarrying() ||
-        world.isClear(u.vAdd(maryCenter, Game.DIR_TO_VECTOR[dir]),
-                      world.MOVE_BLOCKERS);
+        (world.isClear(u.vAdd(maryCenter, Game.DIR_TO_VECTOR[dir]),
+                       world.MOVE_BLOCKERS) &&
+         !this.isPiloting());
     },
 
     maryMovedTo: function(center, dir) {

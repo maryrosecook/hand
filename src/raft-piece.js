@@ -1,13 +1,15 @@
 ;(function(exports) {
-  exports.Wood = function Wood(game, settings) {
+  exports.RaftPiece = function RaftPiece(game, settings) {
     this.game = game;
-    this.zindex = -1;
+    this.zindex = -2;
+    this.raft = settings.raft;
+    this.centerOffset = settings.centerOffset;
     this.center = settings.center;
     this.size = Game.GRID_SIZE;
-    this.color = "#844400";
+    this.color = "#ECC88C";
   };
 
-  Wood.prototype = {
+  RaftPiece.prototype = {
     move: function(center) {
       world.move(this, center);
     },
