@@ -7,17 +7,19 @@
     this.color = settings.color;
 
     this.wander = _.throttle(function() {
-      var currentLand = world.getAt(this.center, [Land]);
-      if (currentLand !== undefined) {
-        if (this.path === undefined || this.path.length === 0) {
-          var destination = getClearDestination(currentLand.landMass);
-          this.path = astar(this.center, destination.center);
-        } else {
-          var nextCenter = this.path.shift();
-          if (world.isClear(nextCenter, world.MOVE_BLOCKERS)) {
-            this.move(nextCenter);
+      if (world.isClear(this.center, [RaftPiece])) {
+        var currentLand = world.getAt(this.center, [Land]);
+        if (currentLand !== undefined) {
+          if (this.path === undefined || this.path.length === 0) {
+            var destination = getClearDestination(currentLand.landMass);
+            this.path = astar(this.center, destination.center);
           } else {
-            this.path = undefined; // plan new path
+            var nextCenter = this.path.shift();
+            if (world.isClear(nextCenter, world.MOVE_BLOCKERS)) {
+              this.move(nextCenter);
+            } else {
+              this.path = undefined; // plan new path
+            }
           }
         }
       }
