@@ -26,8 +26,6 @@
     }, 400, { trailing: false });
   };
 
-  // ALLOW DRAGGING OF RAFT
-
   Person.prototype = {
     update: function() {
       if (!world.mary.hand.isCarrying(this)) {
