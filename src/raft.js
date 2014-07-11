@@ -23,14 +23,18 @@
     },
 
     canPilot: function(dir) {
+      var moveDelta = Game.DIR_TO_VECTOR[dir];
       var centers = this.getCenters();
       var areaClear = _.all(this.getCargo(), function(entity) {
-        var newCargoCenter = u.vAdd(Game.DIR_TO_VECTOR[dir], entity.center);
+        var newCargoCenter = u.vAdd(moveDelta, entity.center);
         return _.any(centers, _.partial(u.vEq, newCargoCenter)) ||
           world.isClear(newCargoCenter, world.MOVE_BLOCKERS);
       });
 
-      return areaClear && _.all(centers, function(c) { return world.isClear(c, [Land])});
+      return areaClear &&
+        _.all(centers, function(c) { return world.isClear(c, [Land])}) &&
+        _.all(world.areaCenters(u.vAdd(moveDelta, this.center), this.gridSquareSize),
+              function(c) { return world.isClear(c, [Land])});
     },
 
     isMoveClear: function(dir) {
