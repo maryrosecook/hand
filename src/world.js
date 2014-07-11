@@ -152,7 +152,14 @@
     },
 
     getAt: function(center, types) {
-      return _.find(this.atSquare(center), _.partial(u.instanceofs, types));
+      var entities = this.atSquare(center);
+      for (var i = 0; i < types.length; i++) {
+        for (var j = 0; j < entities.length; j++) {
+          if (entities[j] instanceof types[i]) {
+            return entities[j];
+          }
+        }
+      }
     },
 
     atSquare: function(center) {
