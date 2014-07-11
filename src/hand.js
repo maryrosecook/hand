@@ -49,26 +49,26 @@
       }
     },
 
-    isPiloting: function() {
+    isPilotingVehicle: function() {
       return this.carrying instanceof Cockpit;
     },
 
-    pilotMove: function(dir) {
-      this.carrying.move(dir);
+    isDraggingVehicle: function() {
+      return this.carrying instanceof RaftPiece;
+    },
+
+    maryMove: function(center, dir) {
+      world.move(this, u.vAdd(center, Game.DIR_TO_VECTOR[dir]));
+      if (this.isCarrying()) {
+        this.carrying.move(u.cp(this.center));
+      }
     },
 
     canMove: function(maryCenter, dir) {
       return !this.isCarrying() ||
         (world.isClear(u.vAdd(maryCenter, Game.DIR_TO_VECTOR[dir]),
                        world.MOVE_BLOCKERS) &&
-         !this.isPiloting());
-    },
-
-    maryMovedTo: function(center, dir) {
-      world.move(this, u.vAdd(center, Game.DIR_TO_VECTOR[dir]));
-      if (this.isCarrying()) {
-        this.carrying.move(u.cp(this.center))
-      }
+         !this.isPilotingVehicle() && !this.isDraggingVehicle());
     },
 
     die: function() {

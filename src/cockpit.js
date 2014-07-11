@@ -9,8 +9,5 @@
   };
 
   Cockpit.prototype = {
-    move: function(center) {
-      this.vehicle.move(center);
-    }
   };
 })(this);

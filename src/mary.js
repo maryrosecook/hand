@@ -42,7 +42,11 @@
     },
 
     movementFrequency: function() {
-      if (!world.isClear(this.center, [Land])) {
+      if (this.hand.isDraggingVehicle()) {
+        return 600;
+      } else if (this.hand.isPilotingVehicle()) {
+        return 25;
+      } else if (!world.isClear(this.center, [Land])) {
         return 50;
       } else {
         return 400;
@@ -75,18 +79,25 @@
     lastMove: 0,
     handleMovement: function() {
       this.updateKeyMap();
-      var dir = this.getCurrentDir();
-      if (dir !== undefined) {
-        var newPosition = u.vAdd(this.center, Game.DIR_TO_VECTOR[dir]);
-        if (this.hand.isPiloting()) {
-          this.hand.pilotMove(dir); // will move mary, too
-        } else if (u.timePassed(this.lastMove, this.movementFrequency())) {
-          if (this.canMove(newPosition, dir)) {
+      if (u.timePassed(this.lastMove, this.movementFrequency())) {
+        var dir = this.getCurrentDir();
+        if (dir !== undefined) {
+          var newPosition = u.vAdd(this.center, Game.DIR_TO_VECTOR[dir]);
+          if (this.hand.isDraggingVehicle() && world.isClear(this.center, [RaftPiece])
+              && this.hand.carrying.vehicle.canDrag(dir)) {
             world.move(this, newPosition);
-            this.hand.maryMovedTo(this.center, dir);
+            this.hand.carrying.vehicle.move(dir);
+            this.lastMove = _.now();
+          } else if (this.hand.isPilotingVehicle() &&
+                     this.hand.carrying.vehicle.canPilot(dir)) {
+            this.hand.carrying.vehicle.move(dir);
+            this.lastMove = _.now();
+          } else if (this.canMove(newPosition, dir)) {
+            world.move(this, newPosition);
+            this.hand.maryMove(this.center, dir);
             this.lastMove = _.now();
           } else if (this.canMove(this.center, dir)) { // try just rotating
-            this.hand.maryMovedTo(this.center, dir);
+            this.hand.maryMove(this.center, dir);
             this.lastMove = _.now();
           }
         }
