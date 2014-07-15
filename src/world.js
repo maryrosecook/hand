@@ -20,7 +20,7 @@
         this.createIsland(this.c, this.randomSquareCenter(0, 50));
       }, this);
 
-      _.times(4, function() {
+      _.times(8, function() {
         this.createIsland(this.c, this.randomSquareCenter(50, 100));
       }, this);
 
