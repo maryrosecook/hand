@@ -33,7 +33,7 @@
           continue;
         }
 
-        var tentativeGScore = gScore[xId] + moveCost(y);
+        var tentativeGScore = gScore[xId] + moveCost(y, goal);
         var tentativeIsBetter;
         if (openSet[yId] === undefined) {
           openSet[yId] = y;
@@ -53,9 +53,10 @@
     }
   };
 
-  var moveCost = function(to) {
-    if (world.isClear(to, world.MOVE_BLOCKERS) &&
-        !world.isClear(to, [Land])) {
+  var moveCost = function(to, goal) {
+    if (!world.isClear(to, [Land]) &&
+        (world.isClear(to, world.MOVE_BLOCKERS) ||
+         u.vEq(to, goal) === true)) {
       return Game.GRID_SIZE.x;
     } else {
       return Infinity;
