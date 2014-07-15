@@ -28,7 +28,7 @@
 
   Person.prototype = {
     update: function() {
-      if (!world.mary.hand.isCarrying(this)) {
+      if (!world.maryIsCarrying(this)) {
         this.wander();
       }
     },

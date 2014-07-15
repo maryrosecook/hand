@@ -98,7 +98,7 @@
     },
 
     destroy: function(entity) {
-      if (world.mary.hand.isCarrying(entity)) {
+      if (this.maryIsCarrying(entity)) {
         world.mary.hand.dropIfCarrying();
       }
 
@@ -166,6 +166,10 @@
       return this.locs[this.locId(center)] || [];
     },
 
+    maryIsCarrying: function(entity) {
+      return this.mary !== undefined && this.mary.hand.isCarrying(entity);
+    },
+
     driftables: [Food],
     driftSeaborneObjects: _.throttle(function() {
       var lands = this.c.entities.all(Land);
@@ -173,8 +177,7 @@
         return _.any(self.driftables, function(D) { return e instanceof D; }) &&
           !_.some(lands, function(l) {
             return l.center.x === e.center.x && l.center.y === e.center.y;
-          }) &&
-          !world.mary.hand.isCarrying(e);
+          }) && !world.maryIsCarrying(e);
       }).forEach(function(drifting) {
         drifting.move(u.vAdd(drifting.center, Game.GRID_SIZE))
       });
