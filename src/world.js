@@ -51,8 +51,6 @@
       this.create(Person, {center: u.cp(this.genInhabitantCenter(125, 180)), color: "black"});
       this.create(Person, {center: u.cp(this.genInhabitantCenter(180, 240)), color: "black"});
 
-      this.create(Animal, {center: u.cp(this.genInhabitantCenter(10, 30)) });
-
       // create food bonanza on random island
       var foodLandMass = _.find(_.shuffle(this.landMasses), function(landMass) {
         return isInGridDistance(60, 125, this.mary, landMass.lands[0]);
@@ -219,6 +217,10 @@
 
       if (Math.random() > 0.5) {
         this.create(Food, { center: _.sample(landMass.lands).center });
+      }
+
+      if (Math.random() > 0.7) {
+        this.create(Animal, { center: _.sample(landMass.lands).center });
       }
 
       var forestCenter = u.p(center.x, center.y - Game.GRID_SIZE.x * 4);
