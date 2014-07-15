@@ -144,6 +144,7 @@
     },
 
     die: function() {
+      world.mary = undefined;
       this.hand.die();
       var bloodCenter = u.cp(this.center);
       world.destroy(this);
