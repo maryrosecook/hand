@@ -14,7 +14,13 @@
         if (target !== undefined) {
           this.path = astar(this.center, target.center);
         } else {
-          this.path = astar(this.center, getClearDestination(this).center);
+          var landMass = world.getAt(this.center, [Land]).landMass;
+          var destination = _.find(_.shuffle(landMass.lands), function(land) {
+            return world.isClear(land.center, world.MOVE_BLOCKERS) &&
+              astar(this.center, land.center) !== undefined;
+          }, this);
+
+          this.path = astar(this.center, destination.center);
         }
       }
 
@@ -24,6 +30,7 @@
         attackableTarget.die();
         this.path = undefined;
       } else if (this.path === undefined) {
+        console.log(target)
         throw "don't know where to go";
       } else if (this.path.length === 0) {
         this.path = undefined;
@@ -61,12 +68,5 @@
         return x.target;
       }).first().value();
     }
-  };
-
-  var getClearDestination = function(entity) {
-    var landMass = world.getAt(entity.center, [Land]).landMass;
-    return _.find(_.shuffle(landMass.lands), function(land) {
-      return world.isClear(land.center, world.MOVE_BLOCKERS);
-    });
   };
 })(this);
