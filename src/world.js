@@ -2,6 +2,7 @@
   exports.world = {
     setup: function(c) {
       this.MOVE_BLOCKERS = [Tree, Food, Person, Mary, Wood, Cockpit];
+      this.PREDATOR_MOVE_BLOCKERS = _.without(this.MOVE_BLOCKERS, Mary, Person);
       this.FLAMMABLE = [Tree, Food, Person, Mary, Wood];
       this.VEHICLE_MOVEABLE = [Food, Person, Mary, Wood, Cockpit, RaftPiece, Hand];
       this.CONSUMABLE = [Food, Tree];
@@ -46,9 +47,11 @@
         }, this).center
       });
 
-      this.create(Person, { center: u.cp(this.genLostPersonCenter(60, 125)), color: "black"});
-      this.create(Person, { center: u.cp(this.genLostPersonCenter(125, 180)), color: "black"});
-      this.create(Person, { center: u.cp(this.genLostPersonCenter(180, 240)), color: "black"});
+      this.create(Person, {center: u.cp(this.genInhabitantCenter(60, 125)), color: "black"});
+      this.create(Person, {center: u.cp(this.genInhabitantCenter(125, 180)), color: "black"});
+      this.create(Person, {center: u.cp(this.genInhabitantCenter(180, 240)), color: "black"});
+
+      this.create(Animal, {center: u.cp(this.genInhabitantCenter(10, 30)) });
 
       // create food bonanza on random island
       var foodLandMass = _.find(_.shuffle(this.landMasses), function(landMass) {
@@ -112,7 +115,7 @@
       if (index !== -1) {
         this.locs[locId].splice(index, 1);
       } else {
-        throw "Tried to remove entity from locs, but wasn't there";
+        throw "Tried to remove above entity from locs, but wasn't there";
       }
     },
 
@@ -259,7 +262,7 @@
       ];
     },
 
-    genLostPersonCenter: function(minGridDistance, maxGridDistance) {
+    genInhabitantCenter: function(minGridDistance, maxGridDistance) {
       return _.find(this.c.entities.all(Land), function(land) {
         return isInGridDistance(minGridDistance, maxGridDistance, this.mary, land) &&
           this.isClear(land.center, this.MOVE_BLOCKERS);
