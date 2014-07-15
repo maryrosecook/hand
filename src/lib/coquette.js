@@ -7,6 +7,8 @@
     this.runner = new Coquette.Runner(this);
     this.collider = new Coquette.Collider(this);
 
+    this.gameSize = { x: width, y: height };
+
     var self = this;
     this.ticker = new Coquette.Ticker(this, function(interval) {
       self.runner.update(interval);
