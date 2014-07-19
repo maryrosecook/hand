@@ -23,8 +23,11 @@
 
   Mary.prototype = {
     update: function(delta) {
-      this.handleMovement();
-      this.game.c.renderer.setViewCenter(this.center);
+      if (this.game.debugging === false) {
+        this.handleMovement();
+        this.game.c.renderer.setViewCenter(this.center);
+      }
+
       this.reduceFood();
       if (this.food === 0) {
         this.die();

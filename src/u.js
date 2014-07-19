@@ -49,6 +49,10 @@
       return this.p(v1.x + v2.x, v1.y + v2.y);
     },
 
+    vMultiply: function(v, m) {
+      return { x: v.x * m, y: v.y * m };
+    },
+
     vSubtract: function(v1, v2) {
       return this.p(v1.x - v2.x, v1.y - v2.y);
     },
