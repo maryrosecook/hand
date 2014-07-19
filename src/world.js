@@ -219,16 +219,28 @@
         this.create(Food, { center: _.sample(landMass.lands).center });
       }
 
-      if (Math.random() > 0.7) {
-        this.create(Animal, { center: _.sample(landMass.lands).center });
-      }
-
       var forestCenter = u.p(center.x, center.y - Game.GRID_SIZE.x * 4);
       this.createForest(c, forestCenter);
+
+      if (Math.random() > 0.2) {
+        var land = this.getIslandClearing(landMass);
+        if (land !== undefined) {
+          this.create(Animal, { center: u.cp(land.center) });
+        }
+      }
 
       if (Math.random() > 0.8) {
         // this.create(Fire, { center: u.cp(forestCenter) });
       }
+    },
+
+    getIslandClearing: function(landMass) {
+      return _.find(landMass.lands, function(land) {
+        return this.isClear(land.center, this.MOVE_BLOCKERS) &&
+          _.all(this.adjNeighbors(land.center), function(x) {
+            return this.isClear(x, this.MOVE_BLOCKERS);
+          }, this);
+      }, this);
     },
 
     stepFires: function(c) {
