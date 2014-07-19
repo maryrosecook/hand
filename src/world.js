@@ -47,9 +47,9 @@
         }, this).center
       });
 
-      this.create(Person, {center: u.cp(this.genInhabitantCenter(60, 125)), color: "black"});
-      this.create(Person, {center: u.cp(this.genInhabitantCenter(125, 180)), color: "black"});
-      this.create(Person, {center: u.cp(this.genInhabitantCenter(180, 240)), color: "black"});
+      this.create(Person, { center: this.genInhabitantCenter(60, 125), color: "black" });
+      this.create(Person, { center: this.genInhabitantCenter(125, 180), color: "black" });
+      this.create(Person, { center: this.genInhabitantCenter(180, 240), color: "black" });
 
       // create food bonanza on random island
       var foodLandMass = _.find(_.shuffle(this.landMasses), function(landMass) {
@@ -265,10 +265,10 @@
     },
 
     genInhabitantCenter: function(minGridDistance, maxGridDistance) {
-      return _.find(this.c.entities.all(Land), function(land) {
+      return u.cp(_.find(this.c.entities.all(Land), function(land) {
         return isInGridDistance(minGridDistance, maxGridDistance, this.mary, land) &&
           this.isClear(land.center, this.MOVE_BLOCKERS);
-      }, this).center;
+      }, this).center);
     }
   };
 
