@@ -811,6 +811,8 @@
         }
       }
 
+      this.game.debugDraw(ctx);
+
       ctx.translate(-viewTranslate.x, -viewTranslate.y);
     },
 

@@ -27,6 +27,18 @@
       this.debugging = true;
     },
 
+    // happens after all other drawing
+    debugDraw: function(screen) {
+      this.highlightedSquares.forEach(function(center) {
+        drawer.rect(screen, center, Game.GRID_SIZE, "red");
+      });
+    },
+
+    highlightedSquares: [],
+    highlightSquares: function(centers) {
+      this.highlightedSquares = centers;
+    },
+
     debugKeys: function() {
       if (this.c.inputter.isPressed(this.c.inputter.D)) {
         this.debugging = !this.debugging;
