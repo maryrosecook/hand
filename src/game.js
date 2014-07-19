@@ -67,7 +67,7 @@
 
       this.c.entities.all().forEach(function(e) {
         world.move(e, u.vMultiply(e.center, multiplier));
-        if (e instanceof Person) {
+        if (e instanceof Person || e instanceof Animal) {
           e.path = undefined;
         }
       });
